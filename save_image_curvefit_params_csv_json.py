@@ -10,7 +10,7 @@ from scipy.signal import butter, filtfilt
 from sklearn.preprocessing import MinMaxScaler
 
 # custom moudle
-from postprocess_rgb_binary_skeleton_curvefit import RBSC
+from postprocess import RBSC
 
 ############################################################################
 
