@@ -4,10 +4,11 @@ from natsort import natsorted
 import imageio
 
 # 이미지가 저장된 디렉토리 경로
-image_folder = os.path.join('images_with_arrow')
-video_name = 'images_with_arrow.avi'
-video_name_mp4 = 'images_with_arrow.mp4'
-gif_name = 'images_with_arrow.gif'
+name = 'images_with_arrow_20240821_142923'
+image_folder = os.path.join(name)
+video_name = 'videos/' + name + '.avi'
+video_name_mp4 = 'videos/' + name + '.mp4'
+gif_name = 'videos/' + name + '.gif'
 fps = 30
 
 # 이미지 파일 이름들을 정렬된 리스트로 가져오기

@@ -3,9 +3,13 @@ import glob
 import cv2
 import matplotlib.pyplot as plt
 import time
+from datetime import datetime
 import json
 from tqdm import tqdm
 from natsort import natsorted
+import line_profiler
+import cProfile
+from numba import jit
 
 import cv2
 import matplotlib.pyplot as plt
@@ -15,12 +19,13 @@ from fil_finder import FilFinder2D
 import astropy.units as u
 from scipy.optimize import curve_fit, brentq, minimize_scalar, root_scalar, OptimizeWarning
 from scipy.misc import derivative
-from scipy.integrate import quad
+from scipy.integrate import quad, fixed_quad, quadrature
 from scipy.optimize import minimize
 from numpy.polynomial import Polynomial
 
 # image_path = '487_1723092780-883211914.png'
-image_path = '302_1723092774-710305664.png'
+# image_path = '302_1723092774-710305664.png'
+image_path = '142_1723092769-375700928.png'
 
 def create_directory(directory_path):
     if not os.path.exists(directory_path):
@@ -60,7 +65,7 @@ class RBSC:
 
         return config
 
-    def smoothing(self, binary, k_size=15):
+    def smoothing(self, binary, k_size=5):
         # 빈틈을 채우기 위해 닫힘 연산 적용 (모폴로지 연산)
         kernel = np.ones((k_size, k_size), np.uint8)
         closed = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel)
@@ -86,6 +91,8 @@ class RBSC:
         return np.dot(coords, rotation_matrix.T)
     def poly4d(self, x, a, b, c, d):
         return a * x ** 4 + b * x ** 3 + c * x ** 2 + d * x
+        # return a * (x+2) ** 4 + b * (x+2) ** 3 + c * (x+2) ** 2 + d * (x+2)
+
     def poly3d(self, x, a, b, c):
         return a * x ** 3 + b * x ** 2 + c * x
     def log(self, x, a, b):
@@ -97,7 +104,7 @@ class RBSC:
 
     # 곡선 양끝에 n개의 점 추가
     # y값을 기존값 그대로 쓸수도 있고, curve함수에 의해 수학적으로 구해지는 y를 쓸 수도 있다.
-    def extend_curve(self, x, y, popt, rate=0.3, replace='origin'):
+    def extend_curve(self, x, y, popt, rate=0.8, start_method='linear', end_method='curve',replace='origin'):
         """
         :param x: x values
         :param y: y values
@@ -108,23 +115,39 @@ class RBSC:
         :return: extended x, y values
         """
         interval =  (x.max() - x.min()) / len(x)
-        n = len(x) * rate    # 전체 데이터 개수의 10 %만큼 연장
+        n = len(x) * rate    # 전체 데이터 개수의 rate * 100 %만큼 연장
         n = int(n)
         extend_threshold = interval * n
         x_new_start = np.arange(x.min() - extend_threshold, x.min(), interval)
         x_new_end = np.arange(x.max(), x.max() + extend_threshold, interval)
         x_extended = np.concatenate([x_new_start, x, x_new_end])
 
+        popt = popt
         if replace == 'origin':
-            y_new_start = self.poly4d(x_new_start, *self.popt_poly4d)
-            y_new_end = self.poly4d(x_new_end, *self.popt_poly4d)
+            # default
+            y_new_start = self.poly4d(x_new_start, *popt)
+            y_new_end = self.poly4d(x_new_end, *popt)
+
+            if start_method == 'linear':
+                tangent = derivative(self.func_poly4d, x.min(), dx=1e-6)
+                y_new_start = tangent * x_new_start
+            elif start_method == 'curve':
+                y_new_start = self.poly4d(x_new_start, *popt)
+
+            if end_method == 'linear':
+                tangent = derivative(self.func_poly4d, x.max(), dx=1e-6)
+                y_new_end = tangent * x_new_end
+            elif end_method == 'curve':
+                y_new_end = self.poly4d(x_new_end, *popt)
+
             y_extended = np.concatenate([y_new_start, y, y_new_end])
+
         elif replace == 'replace':
-            y_extended = self.poly4d(x_extended, *self.popt_poly4d)
+            y_extended = self.poly4d(x_extended, *popt)
 
         return x_extended, y_extended
 
-    def get_curve_length(self, x_start, x_end, popt='poly4d'):
+    def get_curve_length(self, x_start, x_end, popt='poly4d', method='quad', n=100):
         params = None
         if popt == 'poly4d':
             params = self.popt_poly4d
@@ -136,7 +159,14 @@ class RBSC:
         # 곡선의 도함수를 수치적으로 계산하여 길이를 구함
         integrand = lambda x: np.sqrt(1 + derivative(fitted_curve, x, dx=1e-6) ** 2)
         # integrand = lambda x: np.sqrt(1 + self.dfdx_poly4d(x) ** 2)
-        length, _ = quad(integrand, x_start, x_end)
+
+        # length, _ = quad(integrand, x_start, x_end)
+        if method == 'quad':
+            length, _ = quad(integrand, x_start, x_end)
+        elif method == 'quadrature':
+            length, _ = quadrature(integrand, x_start, x_end)
+        elif method == 'fixed_quad':
+            length, _ = fixed_quad(integrand, x_start, x_end, n=n)
 
         return length
 
@@ -154,7 +184,7 @@ class RBSC:
             length_difference,
             bounds=(x_start, x_start + target_length),
             method='bounded',
-            options={'xatol': 1e-15}
+            options={'xatol': 1e-6}
         )
         return result.x
 
@@ -177,7 +207,7 @@ class RBSC:
         x_max = np.max(coordinates[:, 0])
         y_max = np.max(coordinates[:, 1])
         self.__div = max(x_max, y_max)
-        print(f'self.__div = {self.__div}')
+        # print(f'self.__div = {self.__div}')
         self.norm_xy_coords = np.copy(coordinates)
         self.norm_xy_coords[:, 0] = self.new_xy_coords[:, 0] / self.__div
         self.norm_xy_coords[:, 1] = self.new_xy_coords[:, 1] / self.__div
@@ -192,6 +222,8 @@ class RBSC:
     def pixel_to_orthogonal_coordinate(self, binary):
         # ========== Transform image pixel coordinate to mathematical X-Y coordinate ==========
         self.yx_coords = np.column_stack(np.where(binary > 0)).astype(np.float64)
+        # self.yx_coords = self.yx_coords[:-10]
+        self.num_of_pixel_points = len(self.yx_coords)
         self.xy_coords = self.yx_coords[:, [1, 0]]  # x, y 열 위치 조정
         self.xy_coords[:, 1] = binary.shape[0] - self.xy_coords[:, 1]  # height - y
 
@@ -236,16 +268,16 @@ class RBSC:
         # 끝점의 기울기 - test
         self.tip_tangent = derivative(self.func_poly4d, self.x1, dx=1e-6)
         self.tip_angle_rad = np.arctan(self.tip_tangent)
-        self.tip_angle_deg = 90 + np.degrees(self.tip_angle_rad)
-        print(f'tip_angle (deg) = {self.tip_angle_deg}')
+        self.tip_angle_deg = np.degrees(self.tip_angle_rad)
+        # print(f'tip_angle (deg) = {self.tip_angle_deg}')
 
         ###########################################################################
         # get each angle of joints
         num_of_segments = self.config.get('num_of_segments')
         length_of_segment = self.config.get('length_of_segment')  # mm
         self.joint_x = np.zeros(num_of_segments)
-        print('============ get joints_x ================')
-        print(f'total len = {self.curve_length}')
+        # print('============ get joints_x ================')
+        # print(f'total len = {self.curve_length}')
 
         target_len = self.curve_length / float(2 * num_of_segments)
         x1 = self.find_x_for_given_length(self.start_point[0], target_length=target_len)
@@ -266,10 +298,18 @@ class RBSC:
         self.joint_angle = np.arctan(self.joint_tangents)
         self.joint_angle_degree = np.degrees(self.joint_angle)
 
-        print(f'joints = {self.joints_xy}')
-        print(f'joint_tangent = {self.joint_tangents}')
-        print(f'joint_angle (rad) = {self.joint_angle}')
-        print(f'joint_angle (deg) = {np.degrees(self.joint_angle)}')
+        # 첫번째 segment는 오차가 있어서 점사이의 벡터를 가지고 각도를 따로 정의함
+        vector_seg1_to_seg2 = [self.joints_xy[1,0]-self.joints_xy[0,0], self.joints_xy[1,1]-self.joints_xy[0,1]]
+        tangent = vector_seg1_to_seg2[1] / vector_seg1_to_seg2[0]
+        theta = np.arctan(tangent)
+        joint_0_theta = theta/2.0
+        self.joint_angle[0] = joint_0_theta
+        self.joint_angle_degree[0] = np.degrees(self.joint_angle[0])
+
+        # print(f'joints = {self.joints_xy}')
+        # print(f'joint_tangent = {self.joint_tangents}')
+        # print(f'joint_angle (rad) = {self.joint_angle}')
+        # print(f'joint_angle (deg) = {np.degrees(self.joint_angle)}')
 
     def postprocess(self, image_path, binary_thresh=127, filfinder_flag=False):
 
@@ -320,6 +360,14 @@ class RBSC:
 
         # ========== Curve fitting ==========
         try:
+            # 데이터 가중치 설정
+            # weights = np.ones_like(self.yx_coords[:, 0])
+            # sigma = 0.1
+            # num = 10
+            # weights[0:num] = sigma
+            # weights[-num:] = sigma
+            # sigma = 1 / weights
+
             # test
             self.popt, _ = curve_fit(self.poly4d, self.norm_xy_coords[:, 0], self.norm_xy_coords[:, 1], maxfev=2000)
             self.fitted_y = self.poly4d(self.norm_xy_coords[:, 0], *self.popt)
@@ -328,10 +376,11 @@ class RBSC:
             self.trans_xy_coords = self.rotation_matrix(self.norm_xy_coords, theta=-90)
 
             # 2. curve fitting
-            self.popt_poly4d, _ = curve_fit(self.poly4d, self.trans_xy_coords[:, 0], self.trans_xy_coords[:, 1], maxfev=2000)
-            self.fitted_y_poly4d = self.poly4d(self.trans_xy_coords[:, 0], *self.popt_poly4d)
-            self.func_poly4d = lambda x: self.poly4d(x, *self.popt_poly4d)
-            self.dfdx_poly4d = lambda x: self.popt_poly4d[0]*4*x**3 + self.popt_poly4d[1]*3*x**2 + self.popt_poly4d[2]*2*x + self.popt_poly4d[3]
+            self.temp_popt_poly4d, _ = curve_fit(self.poly4d, self.trans_xy_coords[:, 0], self.trans_xy_coords[:, 1], maxfev=2000)
+            # self.popt_poly4d, _ = curve_fit(self.poly4d, self.trans_xy_coords[:, 0], self.trans_xy_coords[:, 1], sigma=sigma, maxfev=2000)
+            self.fitted_y_poly4d = self.poly4d(self.trans_xy_coords[:, 0], *self.temp_popt_poly4d)
+            self.func_poly4d = lambda x: self.poly4d(x, *self.temp_popt_poly4d)
+            self.dfdx_poly4d = lambda x: self.temp_popt_poly4d[0]*4*x**3 + self.temp_popt_poly4d[1]*3*x**2 + self.temp_popt_poly4d[2]*2*x + self.temp_popt_poly4d[3]
             # self.popt_poly3d, _ = curve_fit(self.poly3d, self.trans_xy_coords[:, 0], self.trans_xy_coords[:, 1], maxfev=2000)
             # self.fitted_y_poly3d = self.poly3d(self.trans_xy_coords[:, 0], *self.popt_poly3d)
             #
@@ -353,7 +402,17 @@ class RBSC:
             6. get center line of object
             '''
             # 1. Extraploation
-            ext_coords_x, ext_coords_y = self.extend_curve(self.trans_xy_coords[:, 0], self.trans_xy_coords[:, 1], self.popt_poly4d, rate=0.2)
+            ext_coords_x, ext_coords_y = self.extend_curve(self.trans_xy_coords[:, 0], self.trans_xy_coords[:, 1], self.temp_popt_poly4d, rate=0.2)
+
+            # Import
+            # update curvefit coefficients
+            """
+            TODO
+            곡선 연장후 재피팅 안해줄 경우 skeleton 끝이 테두리로 삐져나갔을 때 대처가 안됌
+            """
+            self.popt_poly4d, _ = curve_fit(self.poly4d, ext_coords_x, ext_coords_y, maxfev=2000)
+            self.fitted_y_poly4d = self.poly4d(ext_coords_x, *self.popt_poly4d)
+            self.func_poly4d = lambda x: self.poly4d(x, *self.popt_poly4d)
 
             self.extended_norm_coords = np.column_stack((ext_coords_x, ext_coords_y))
 
@@ -409,7 +468,7 @@ class RBSC:
         # results
         # rads = -np.deg2rad(self.joint_angle_degree)
         rads = self.joint_angle + np.pi / 2
-        print(f'rads = {rads}')
+        # print(f'rads = {rads}')
         arrow_length = 15
         u = np.cos(rads) * arrow_length
         v = np.sin(rads) * arrow_length
@@ -471,7 +530,7 @@ class RBSC:
         plt.subplot(2, 3, 5)
         plt.title('Extended skeleton Image')
         plt.imshow(self.body_image, cmap='gray', alpha=1)
-        plt.scatter(self.extended_skeleton_origin_yx[:, 1], self.extended_skeleton_origin_yx[:, 0], color='orange', s=4, label='Original data')
+        plt.scatter(self.extended_skeleton_origin_yx[:, 1], self.extended_skeleton_origin_yx[:, 0], color='red', s=10, label='Original data')
         plt.scatter(self.extended_yx_coords[:, 1], self.extended_yx_coords[:, 0], color='blue', s=1, label='Original data')
         plt.axis('off')
 
@@ -533,7 +592,7 @@ class RBSC:
 
         plt.subplot(3, 3, 5)
         plt.scatter(self.trans_xy_coords[:, 0], self.trans_xy_coords[:, 1], color='black', s=4)
-        plt.plot(self.trans_xy_coords[:, 0], self.fitted_y_poly4d, label='Fitted Curve', color='red')
+        plt.plot(self.extended_norm_coords[:, 0], self.fitted_y_poly4d, label='Fitted Curve', color='red')
         text = rf'{self.popt_poly4d[0]:.2}x^4 + {self.popt_poly4d[1]:.2}x^3 + {self.popt_poly4d[2]:.2}x^2 + {self.popt_poly4d[3]:.2}x'
         plt.title(text)
         plt.axis('scaled')
@@ -582,18 +641,22 @@ class RBSC:
 
         #############################################################
 
-        # plt.show()
+        plt.show()
 
 if __name__ == '__main__':
     rbsc = RBSC()
     rbsc.postprocess(image_path)
-    rbsc.show()
+    # rbsc.show()
 
     img_dir = 'data/2024-08-08 experiment/2024-08-08-13-52-44 nopayload/images'
     images = [img for img in os.listdir(img_dir) if img.endswith(".png") or img.endswith(".jpg")]
     images = natsorted(images)
 
-    dir_name = 'images_with_arrow'
+    # 현재 시간 가져오기
+    current_time = datetime.now()
+    time_str = current_time.strftime("%Y%m%d_%H%M%S")
+
+    dir_name = f'images_with_arrow_{time_str}'
     create_directory(dir_name)
     for image_name in tqdm(images):
         image_path = os.path.join(img_dir, image_name)
@@ -604,8 +667,9 @@ if __name__ == '__main__':
     n = 100
     st = time.time()
     for i in tqdm(range(n)):
+        # cProfile.run('rbsc.postprocess(image_path)')
         rbsc.postprocess(image_path)
-        rbsc.plot_save()
+        # rbsc.plot_save()
         # print(f'num of sequence = {i}')
     et = time.time()
     sampling_freq = n/(et-st)

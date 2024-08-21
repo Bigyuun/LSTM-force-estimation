@@ -1,3 +1,5 @@
+.idea
 data
-fit
-images_with_arrow
+images_with_arrow_*
+videos/**.gif
+videos/**.avi
