@@ -4,7 +4,7 @@ from natsort import natsorted
 import imageio
 
 # 이미지가 저장된 디렉토리 경로
-name = 'images_with_arrow_20240821_142923'
+name = 'images_with_arrow_20240821_163307'
 image_folder = os.path.join(name)
 video_name = 'videos/' + name + '.avi'
 video_name_mp4 = 'videos/' + name + '.mp4'

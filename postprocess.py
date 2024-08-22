@@ -306,10 +306,10 @@ class RBSC:
         self.joint_angle[0] = joint_0_theta
         self.joint_angle_degree[0] = np.degrees(self.joint_angle[0])
 
-        # print(f'joints = {self.joints_xy}')
-        # print(f'joint_tangent = {self.joint_tangents}')
-        # print(f'joint_angle (rad) = {self.joint_angle}')
-        # print(f'joint_angle (deg) = {np.degrees(self.joint_angle)}')
+        print(f'joints = {self.joints_xy}')
+        print(f'joint_tangent = {self.joint_tangents}')
+        print(f'joint_angle (rad) = {self.joint_angle}')
+        print(f'joint_angle (deg) = {self.joint_angle_degree}')
 
     def postprocess(self, image_path, binary_thresh=127, filfinder_flag=False):
 
@@ -464,6 +464,7 @@ class RBSC:
 
         finally:
             return self.popt_poly4d, self.popt_poly3d, self.popt_log
+
     def plot_save(self, save_dir):
         # results
         # rads = -np.deg2rad(self.joint_angle_degree)
@@ -523,15 +524,28 @@ class RBSC:
         plt.title('Skeleton Image')
         # plt.imshow(self.skeleton, cmap='jet', alpha=0.5)
         plt.imshow(self.body_image, cmap='gray', alpha=1)
-        plt.scatter(self.yx_coords[:, 1], self.yx_coords[:, 0], color='red', s=1, label='Original data')
+        plt.scatter(self.yx_coords[:, 1], self.yx_coords[:, 0], color='blue', s=1, label='Original skeleton')
         # plt.contour(self.longest_backbone_image)
+        plt.legend()
         plt.axis('off')
 
         plt.subplot(2, 3, 5)
+        plt.imshow(self.body_image, cmap='gray')
+        # plt.scatter(self.extended_curve[:, 1], self.extended_curve[:, 0], color='red', s=10)
+        plt.scatter(self.extended_yx_coords[:, 1], self.extended_yx_coords[:, 0], color='orange', s=4, label='Extended skeleton')
+        plt.scatter(self.yx_coords[:, 1], self.yx_coords[:, 0], color='blue', s=1, label='Original skeleton')
+        plt.legend()
+        plt.title('Extended Pixel')
+        plt.axis('scaled')
+
+        plt.subplot(2, 3, 6)
         plt.title('Extended skeleton Image')
         plt.imshow(self.body_image, cmap='gray', alpha=1)
-        plt.scatter(self.extended_skeleton_origin_yx[:, 1], self.extended_skeleton_origin_yx[:, 0], color='red', s=10, label='Original data')
-        plt.scatter(self.extended_yx_coords[:, 1], self.extended_yx_coords[:, 0], color='blue', s=1, label='Original data')
+        plt.scatter(self.extended_yx_coords[:, 1], self.extended_yx_coords[:, 0], color='orange', s=1,
+                    label='Extended skeleton')
+        plt.scatter(self.extended_skeleton_origin_yx[:, 1], self.extended_skeleton_origin_yx[:, 0], color='red', s=4,
+                    label='joints')
+        plt.legend()
         plt.axis('off')
 
 
@@ -592,21 +606,14 @@ class RBSC:
 
         plt.subplot(3, 3, 5)
         plt.scatter(self.trans_xy_coords[:, 0], self.trans_xy_coords[:, 1], color='black', s=4)
-        plt.plot(self.extended_norm_coords[:, 0], self.fitted_y_poly4d, label='Fitted Curve', color='red')
+        plt.scatter(self.extended_norm_coords[:, 0], self.fitted_y_poly4d, color='red', s=1)
         text = rf'{self.popt_poly4d[0]:.2}x^4 + {self.popt_poly4d[1]:.2}x^3 + {self.popt_poly4d[2]:.2}x^2 + {self.popt_poly4d[3]:.2}x'
         plt.title(text)
         plt.axis('scaled')
         plt.grid(True)
 
-        plt.subplot(3, 3, 6)
-        plt.scatter(self.extended_xy_coords[:, 0], self.extended_xy_coords[:, 1], color='orange', s=4)
-        plt.scatter(self.xy_coords[:, 0], self.xy_coords[:, 1], color='blue', s=1)
-        plt.title('Extended Pixel')
-        plt.axis('scaled')
-        plt.grid(True)
-
         #############################################################
-        x_range = np.linspace(-0.5, 1.5, 500)
+        x_range = np.linspace(self.start_point[0], self.end_point[0], 100)
 
         # 시각화
         plt.figure(figsize=(8, 6))
@@ -630,7 +637,13 @@ class RBSC:
         #############################################################
         plt.figure(figsize=(8, 6))
         # plt.subplot(1, 3, 2)
-        plt.plot(self.joints_invtrans_xy[:, 0], self.joints_invtrans_xy[:, 1], 'ro', label=f'Rot Trans Joint Point')
+        plt.plot(x_range, self.func_poly4d(x_range), 'k-', label='Fitted Curve')
+        plt.plot(self.joint_x, self.joint_y, 'ro', label=f'Joint Point')
+        plt.plot(self.start_point[0], self.start_point[1], 'bo',
+                 label=f'Measured Start Point ({self.start_point[0]:.5f}, {self.start_point[1]:.5f})')
+        plt.plot([self.end_point[0]], [self.end_point[1]], 'bo',
+                 label=f'Measured End Point ({self.end_point[0]:.5f}, {self.end_point[1]:.5f})')
+
         # plt.legend(loc='upper right', bbox_to_anchor=(0, -0.2), ncol=1)
         plt.legend()
         plt.title('Curve Fitting and Closest Point Visualization (Invers-Rot-Transform)')
@@ -646,9 +659,10 @@ class RBSC:
 if __name__ == '__main__':
     rbsc = RBSC()
     rbsc.postprocess(image_path)
-    # rbsc.show()
+    rbsc.show()
 
-    img_dir = 'data/2024-08-08 experiment/2024-08-08-13-52-44 nopayload/images'
+    # img_dir = 'data/2024-08-08 experiment/2024-08-08-13-52-44 nopayload/images'
+    img_dir = 'data/2024-08-08 experiment/2024-08-08-13-46-11 upper_init-X/images'
     images = [img for img in os.listdir(img_dir) if img.endswith(".png") or img.endswith(".jpg")]
     images = natsorted(images)
 

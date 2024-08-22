@@ -102,8 +102,8 @@ predicted_original = scaler_y.inverse_transform(predicted)
 y_val_original = scaler_y.inverse_transform(y_val)
 
 # 예측값 및 실제값 저장
-np.savetxt(log_dir + '/predicted_original.csv', predicted_original, delimiter=',')
-np.savetxt(log_dir + '/y_val_original.csv', y_val_original, delimiter=',')
+np.savetxt(save_dir + '/predicted_original.csv', predicted_original, delimiter=',')
+np.savetxt(save_dir + '/y_val_original.csv', y_val_original, delimiter=',')
 
 print("예측값:", predicted_original)
 print("실제값:", y_val_original)
