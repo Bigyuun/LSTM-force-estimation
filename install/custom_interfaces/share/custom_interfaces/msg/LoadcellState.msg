@@ -1,0 +1,1 @@
+/home/daeyun/LSTM-force-estimation/src/custom_interfaces/msg/LoadcellState.msg

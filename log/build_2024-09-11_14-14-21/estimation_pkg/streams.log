@@ -1,0 +1,17 @@
+[0.323s] Invoking command in '/home/daeyun/LSTM-force-estimation/build/estimation_pkg': PS1=(LSTM-FORCE-ESTIMATION-VENV) \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ PYTHONPATH=/home/daeyun/LSTM-force-estimation/build/estimation_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/daeyun/LSTM-force-estimation/install/estimation_pkg/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(LSTM-FORCE-ESTIMATION-VENV) /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py develop --editable --build-directory /home/daeyun/LSTM-force-estimation/build/estimation_pkg/build --no-deps symlink_data
+[0.457s] running develop
+[0.536s] running egg_info
+[0.536s] writing estimation_pkg.egg-info/PKG-INFO
+[0.536s] writing dependency_links to estimation_pkg.egg-info/dependency_links.txt
+[0.536s] writing entry points to estimation_pkg.egg-info/entry_points.txt
+[0.536s] writing requirements to estimation_pkg.egg-info/requires.txt
+[0.536s] writing top-level names to estimation_pkg.egg-info/top_level.txt
+[0.537s] reading manifest file 'estimation_pkg.egg-info/SOURCES.txt'
+[0.537s] writing manifest file 'estimation_pkg.egg-info/SOURCES.txt'
+[0.538s] running build_ext
+[0.538s] Creating /home/daeyun/LSTM-force-estimation/install/estimation_pkg/lib/python3.10/site-packages/estimation-pkg.egg-link (link to .)
+[0.538s] Installing segment_angle_estimator script to /home/daeyun/LSTM-force-estimation/install/estimation_pkg/lib/estimation_pkg
+[0.538s] 
+[0.538s] Installed /home/daeyun/LSTM-force-estimation/build/estimation_pkg
+[0.538s] running symlink_data
+[0.553s] Invoked command in '/home/daeyun/LSTM-force-estimation/build/estimation_pkg' returned '0': PS1=(LSTM-FORCE-ESTIMATION-VENV) \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ PYTHONPATH=/home/daeyun/LSTM-force-estimation/build/estimation_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/daeyun/LSTM-force-estimation/install/estimation_pkg/lib/python3.10/site-packages:${PYTHONPATH} VIRTUAL_ENV_PROMPT=(LSTM-FORCE-ESTIMATION-VENV) /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py develop --editable --build-directory /home/daeyun/LSTM-force-estimation/build/estimation_pkg/build --no-deps symlink_data

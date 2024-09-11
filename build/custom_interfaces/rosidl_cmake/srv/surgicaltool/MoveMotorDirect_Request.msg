@@ -1,0 +1,8 @@
+#________________________________________________________
+# Tool tip angle
+#________________________________________________________
+
+# Request
+int32 index_motor    # rad
+int32 target_position     # rad
+int32 target_velocity_profile

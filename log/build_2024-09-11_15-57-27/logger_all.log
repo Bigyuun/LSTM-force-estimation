@@ -1,0 +1,463 @@
+[0.048s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build', '--symlink-install']
+[0.048s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=True, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=24, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x7366305e8dc0>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7366306ddf00>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7366306ddf00>>)
+[0.123s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.123s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.123s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.123s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.123s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.123s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.123s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/daeyun/LSTM-force-estimation'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.124s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.124s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.124s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.124s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.124s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.124s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.124s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.124s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.135s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.135s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.135s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets) by extensions ['ignore', 'ignore_ament_install']
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets) by extension 'ignore'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets) by extension 'ignore_ament_install'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets) by extensions ['colcon_pkg']
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets) by extension 'colcon_pkg'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets) by extensions ['colcon_meta']
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets) by extension 'colcon_meta'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets) by extensions ['ros']
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets) by extension 'ros'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets) by extensions ['cmake', 'python']
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets) by extension 'cmake'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets) by extension 'python'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets) by extensions ['python_setup_py']
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets) by extension 'python_setup_py'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test) by extensions ['ignore', 'ignore_ament_install']
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test) by extension 'ignore'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test) by extension 'ignore_ament_install'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test) by extensions ['colcon_pkg']
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test) by extension 'colcon_pkg'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test) by extensions ['colcon_meta']
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test) by extension 'colcon_meta'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test) by extensions ['ros']
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test) by extension 'ros'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test) by extensions ['cmake', 'python']
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test) by extension 'cmake'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test) by extension 'python'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test) by extensions ['python_setup_py']
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test) by extension 'python_setup_py'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test_origin_raw) by extensions ['ignore', 'ignore_ament_install']
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test_origin_raw) by extension 'ignore'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test_origin_raw) by extension 'ignore_ament_install'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test_origin_raw) by extensions ['colcon_pkg']
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test_origin_raw) by extension 'colcon_pkg'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test_origin_raw) by extensions ['colcon_meta']
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test_origin_raw) by extension 'colcon_meta'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test_origin_raw) by extensions ['ros']
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test_origin_raw) by extension 'ros'
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test_origin_raw) by extensions ['cmake', 'python']
+[0.136s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test_origin_raw) by extension 'cmake'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test_origin_raw) by extension 'python'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test_origin_raw) by extensions ['python_setup_py']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/test_origin_raw) by extension 'python_setup_py'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/train) by extensions ['ignore', 'ignore_ament_install']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/train) by extension 'ignore'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/train) by extension 'ignore_ament_install'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/train) by extensions ['colcon_pkg']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/train) by extension 'colcon_pkg'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/train) by extensions ['colcon_meta']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/train) by extension 'colcon_meta'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/train) by extensions ['ros']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/train) by extension 'ros'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/train) by extensions ['cmake', 'python']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/train) by extension 'cmake'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/train) by extension 'python'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/train) by extensions ['python_setup_py']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(datasets/train) by extension 'python_setup_py'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit) by extensions ['ignore', 'ignore_ament_install']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit) by extension 'ignore'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit) by extension 'ignore_ament_install'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit) by extensions ['colcon_pkg']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit) by extension 'colcon_pkg'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit) by extensions ['colcon_meta']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit) by extension 'colcon_meta'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit) by extensions ['ros']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit) by extension 'ros'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit) by extensions ['cmake', 'python']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit) by extension 'cmake'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit) by extension 'python'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit) by extensions ['python_setup_py']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit) by extension 'python_setup_py'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831) by extensions ['ignore', 'ignore_ament_install']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831) by extension 'ignore'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831) by extension 'ignore_ament_install'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831) by extensions ['colcon_pkg']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831) by extension 'colcon_pkg'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831) by extensions ['colcon_meta']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831) by extension 'colcon_meta'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831) by extensions ['ros']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831) by extension 'ros'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831) by extensions ['cmake', 'python']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831) by extension 'cmake'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831) by extension 'python'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831) by extensions ['python_setup_py']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831) by extension 'python_setup_py'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/train) by extensions ['ignore', 'ignore_ament_install']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/train) by extension 'ignore'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/train) by extension 'ignore_ament_install'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/train) by extensions ['colcon_pkg']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/train) by extension 'colcon_pkg'
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/train) by extensions ['colcon_meta']
+[0.137s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/train) by extension 'colcon_meta'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/train) by extensions ['ros']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/train) by extension 'ros'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/train) by extensions ['cmake', 'python']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/train) by extension 'cmake'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/train) by extension 'python'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/train) by extensions ['python_setup_py']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/train) by extension 'python_setup_py'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/validation) by extensions ['ignore', 'ignore_ament_install']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/validation) by extension 'ignore'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/validation) by extension 'ignore_ament_install'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/validation) by extensions ['colcon_pkg']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/validation) by extension 'colcon_pkg'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/validation) by extensions ['colcon_meta']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/validation) by extension 'colcon_meta'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/validation) by extensions ['ros']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/validation) by extension 'ros'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/validation) by extensions ['cmake', 'python']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/validation) by extension 'cmake'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/validation) by extension 'python'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/validation) by extensions ['python_setup_py']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-184831/validation) by extension 'python_setup_py'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344) by extensions ['ignore', 'ignore_ament_install']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344) by extension 'ignore'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344) by extension 'ignore_ament_install'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344) by extensions ['colcon_pkg']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344) by extension 'colcon_pkg'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344) by extensions ['colcon_meta']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344) by extension 'colcon_meta'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344) by extensions ['ros']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344) by extension 'ros'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344) by extensions ['cmake', 'python']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344) by extension 'cmake'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344) by extension 'python'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344) by extensions ['python_setup_py']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344) by extension 'python_setup_py'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/train) by extensions ['ignore', 'ignore_ament_install']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/train) by extension 'ignore'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/train) by extension 'ignore_ament_install'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/train) by extensions ['colcon_pkg']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/train) by extension 'colcon_pkg'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/train) by extensions ['colcon_meta']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/train) by extension 'colcon_meta'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/train) by extensions ['ros']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/train) by extension 'ros'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/train) by extensions ['cmake', 'python']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/train) by extension 'cmake'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/train) by extension 'python'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/train) by extensions ['python_setup_py']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/train) by extension 'python_setup_py'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/validation) by extensions ['ignore', 'ignore_ament_install']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/validation) by extension 'ignore'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/validation) by extension 'ignore_ament_install'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/validation) by extensions ['colcon_pkg']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/validation) by extension 'colcon_pkg'
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/validation) by extensions ['colcon_meta']
+[0.138s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/validation) by extension 'colcon_meta'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/validation) by extensions ['ros']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/validation) by extension 'ros'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/validation) by extensions ['cmake', 'python']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/validation) by extension 'cmake'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/validation) by extension 'python'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/validation) by extensions ['python_setup_py']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185344/validation) by extension 'python_setup_py'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538) by extensions ['ignore', 'ignore_ament_install']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538) by extension 'ignore'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538) by extension 'ignore_ament_install'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538) by extensions ['colcon_pkg']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538) by extension 'colcon_pkg'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538) by extensions ['colcon_meta']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538) by extension 'colcon_meta'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538) by extensions ['ros']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538) by extension 'ros'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538) by extensions ['cmake', 'python']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538) by extension 'cmake'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538) by extension 'python'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538) by extensions ['python_setup_py']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538) by extension 'python_setup_py'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/train) by extensions ['ignore', 'ignore_ament_install']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/train) by extension 'ignore'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/train) by extension 'ignore_ament_install'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/train) by extensions ['colcon_pkg']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/train) by extension 'colcon_pkg'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/train) by extensions ['colcon_meta']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/train) by extension 'colcon_meta'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/train) by extensions ['ros']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/train) by extension 'ros'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/train) by extensions ['cmake', 'python']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/train) by extension 'cmake'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/train) by extension 'python'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/train) by extensions ['python_setup_py']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/train) by extension 'python_setup_py'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/validation) by extensions ['ignore', 'ignore_ament_install']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/validation) by extension 'ignore'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/validation) by extension 'ignore_ament_install'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/validation) by extensions ['colcon_pkg']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/validation) by extension 'colcon_pkg'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/validation) by extensions ['colcon_meta']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/validation) by extension 'colcon_meta'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/validation) by extensions ['ros']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/validation) by extension 'ros'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/validation) by extensions ['cmake', 'python']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/validation) by extension 'cmake'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/validation) by extension 'python'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/validation) by extensions ['python_setup_py']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(fit/20240807-185538/validation) by extension 'python_setup_py'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.139s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(media) by extensions ['ignore', 'ignore_ament_install']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(media) by extension 'ignore'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(media) by extension 'ignore_ament_install'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(media) by extensions ['colcon_pkg']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(media) by extension 'colcon_pkg'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(media) by extensions ['colcon_meta']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(media) by extension 'colcon_meta'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(media) by extensions ['ros']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(media) by extension 'ros'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(media) by extensions ['cmake', 'python']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(media) by extension 'cmake'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(media) by extension 'python'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(media) by extensions ['python_setup_py']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(media) by extension 'python_setup_py'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(results) by extensions ['ignore', 'ignore_ament_install']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(results) by extension 'ignore'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(results) by extension 'ignore_ament_install'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(results) by extensions ['colcon_pkg']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(results) by extension 'colcon_pkg'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(results) by extensions ['colcon_meta']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(results) by extension 'colcon_meta'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(results) by extensions ['ros']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(results) by extension 'ros'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(results) by extensions ['cmake', 'python']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(results) by extension 'cmake'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(results) by extension 'python'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(results) by extensions ['python_setup_py']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(results) by extension 'python_setup_py'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts) by extensions ['ignore', 'ignore_ament_install']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts) by extension 'ignore'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts) by extension 'ignore_ament_install'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts) by extensions ['colcon_pkg']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts) by extension 'colcon_pkg'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts) by extensions ['colcon_meta']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts) by extension 'colcon_meta'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts) by extensions ['ros']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts) by extension 'ros'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts) by extensions ['cmake', 'python']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts) by extension 'cmake'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts) by extension 'python'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts) by extensions ['python_setup_py']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts) by extension 'python_setup_py'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts/__pycache__) by extensions ['ignore', 'ignore_ament_install']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts/__pycache__) by extension 'ignore'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts/__pycache__) by extension 'ignore_ament_install'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts/__pycache__) by extensions ['colcon_pkg']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts/__pycache__) by extension 'colcon_pkg'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts/__pycache__) by extensions ['colcon_meta']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts/__pycache__) by extension 'colcon_meta'
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts/__pycache__) by extensions ['ros']
+[0.140s] Level 1:colcon.colcon_core.package_identification:_identify(scripts/__pycache__) by extension 'ros'
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(scripts/__pycache__) by extensions ['cmake', 'python']
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(scripts/__pycache__) by extension 'cmake'
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(scripts/__pycache__) by extension 'python'
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(scripts/__pycache__) by extensions ['python_setup_py']
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(scripts/__pycache__) by extension 'python_setup_py'
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore'
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore_ament_install'
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_pkg']
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_pkg'
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_meta']
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_meta'
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ros']
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ros'
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['cmake', 'python']
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'cmake'
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python'
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['python_setup_py']
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python_setup_py'
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src/custom_interfaces) by extensions ['ignore', 'ignore_ament_install']
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src/custom_interfaces) by extension 'ignore'
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src/custom_interfaces) by extension 'ignore_ament_install'
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src/custom_interfaces) by extensions ['colcon_pkg']
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src/custom_interfaces) by extension 'colcon_pkg'
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src/custom_interfaces) by extensions ['colcon_meta']
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src/custom_interfaces) by extension 'colcon_meta'
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src/custom_interfaces) by extensions ['ros']
+[0.141s] Level 1:colcon.colcon_core.package_identification:_identify(src/custom_interfaces) by extension 'ros'
+[0.142s] DEBUG:colcon.colcon_core.package_identification:Package 'src/custom_interfaces' with type 'ros.ament_cmake' and name 'custom_interfaces'
+[0.142s] Level 1:colcon.colcon_core.package_identification:_identify(src/estimation_pkg) by extensions ['ignore', 'ignore_ament_install']
+[0.142s] Level 1:colcon.colcon_core.package_identification:_identify(src/estimation_pkg) by extension 'ignore'
+[0.142s] Level 1:colcon.colcon_core.package_identification:_identify(src/estimation_pkg) by extension 'ignore_ament_install'
+[0.142s] Level 1:colcon.colcon_core.package_identification:_identify(src/estimation_pkg) by extensions ['colcon_pkg']
+[0.142s] Level 1:colcon.colcon_core.package_identification:_identify(src/estimation_pkg) by extension 'colcon_pkg'
+[0.142s] Level 1:colcon.colcon_core.package_identification:_identify(src/estimation_pkg) by extensions ['colcon_meta']
+[0.142s] Level 1:colcon.colcon_core.package_identification:_identify(src/estimation_pkg) by extension 'colcon_meta'
+[0.142s] Level 1:colcon.colcon_core.package_identification:_identify(src/estimation_pkg) by extensions ['ros']
+[0.142s] Level 1:colcon.colcon_core.package_identification:_identify(src/estimation_pkg) by extension 'ros'
+[0.143s] DEBUG:colcon.colcon_core.package_identification:Package 'src/estimation_pkg' with type 'ros.ament_python' and name 'estimation_pkg'
+[0.143s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.143s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.143s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.143s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.143s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.152s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[0.152s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[0.157s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 2 installed packages in /home/daeyun/LSTM-force-estimation/install
+[0.158s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 270 installed packages in /opt/ros/humble
+[0.159s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[0.174s] Level 5:colcon.colcon_core.verb:set package 'custom_interfaces' build argument 'cmake_args' from command line to 'None'
+[0.174s] Level 5:colcon.colcon_core.verb:set package 'custom_interfaces' build argument 'cmake_target' from command line to 'None'
+[0.174s] Level 5:colcon.colcon_core.verb:set package 'custom_interfaces' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.174s] Level 5:colcon.colcon_core.verb:set package 'custom_interfaces' build argument 'cmake_clean_cache' from command line to 'False'
+[0.174s] Level 5:colcon.colcon_core.verb:set package 'custom_interfaces' build argument 'cmake_clean_first' from command line to 'False'
+[0.174s] Level 5:colcon.colcon_core.verb:set package 'custom_interfaces' build argument 'cmake_force_configure' from command line to 'False'
+[0.174s] Level 5:colcon.colcon_core.verb:set package 'custom_interfaces' build argument 'ament_cmake_args' from command line to 'None'
+[0.174s] Level 5:colcon.colcon_core.verb:set package 'custom_interfaces' build argument 'catkin_cmake_args' from command line to 'None'
+[0.174s] Level 5:colcon.colcon_core.verb:set package 'custom_interfaces' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.174s] DEBUG:colcon.colcon_core.verb:Building package 'custom_interfaces' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/daeyun/LSTM-force-estimation/build/custom_interfaces', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/daeyun/LSTM-force-estimation/install/custom_interfaces', 'merge_install': False, 'path': '/home/daeyun/LSTM-force-estimation/src/custom_interfaces', 'symlink_install': True, 'test_result_base': None}
+[0.174s] Level 5:colcon.colcon_core.verb:set package 'estimation_pkg' build argument 'cmake_args' from command line to 'None'
+[0.174s] Level 5:colcon.colcon_core.verb:set package 'estimation_pkg' build argument 'cmake_target' from command line to 'None'
+[0.174s] Level 5:colcon.colcon_core.verb:set package 'estimation_pkg' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.174s] Level 5:colcon.colcon_core.verb:set package 'estimation_pkg' build argument 'cmake_clean_cache' from command line to 'False'
+[0.174s] Level 5:colcon.colcon_core.verb:set package 'estimation_pkg' build argument 'cmake_clean_first' from command line to 'False'
+[0.174s] Level 5:colcon.colcon_core.verb:set package 'estimation_pkg' build argument 'cmake_force_configure' from command line to 'False'
+[0.174s] Level 5:colcon.colcon_core.verb:set package 'estimation_pkg' build argument 'ament_cmake_args' from command line to 'None'
+[0.174s] Level 5:colcon.colcon_core.verb:set package 'estimation_pkg' build argument 'catkin_cmake_args' from command line to 'None'
+[0.174s] Level 5:colcon.colcon_core.verb:set package 'estimation_pkg' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.174s] DEBUG:colcon.colcon_core.verb:Building package 'estimation_pkg' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/daeyun/LSTM-force-estimation/build/estimation_pkg', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/daeyun/LSTM-force-estimation/install/estimation_pkg', 'merge_install': False, 'path': '/home/daeyun/LSTM-force-estimation/src/estimation_pkg', 'symlink_install': True, 'test_result_base': None}
+[0.174s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.175s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.175s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/daeyun/LSTM-force-estimation/src/custom_interfaces' with build type 'ament_cmake'
+[0.175s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/daeyun/LSTM-force-estimation/src/custom_interfaces'
+[0.176s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.176s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.176s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.181s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/daeyun/LSTM-force-estimation/build/custom_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/daeyun/LSTM-force-estimation/install/estimation_pkg:/opt/ros/humble PS1=(LSTM-FORCE-ESTIMATION-VENV) \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ VIRTUAL_ENV_PROMPT=(LSTM-FORCE-ESTIMATION-VENV) /usr/bin/cmake --build /home/daeyun/LSTM-force-estimation/build/custom_interfaces -- -j24 -l24
+[0.360s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/daeyun/LSTM-force-estimation/build/custom_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/daeyun/LSTM-force-estimation/install/estimation_pkg:/opt/ros/humble PS1=(LSTM-FORCE-ESTIMATION-VENV) \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ VIRTUAL_ENV_PROMPT=(LSTM-FORCE-ESTIMATION-VENV) /usr/bin/cmake --build /home/daeyun/LSTM-force-estimation/build/custom_interfaces -- -j24 -l24
+[0.445s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/daeyun/LSTM-force-estimation/build/custom_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/daeyun/LSTM-force-estimation/install/estimation_pkg:/opt/ros/humble PS1=(LSTM-FORCE-ESTIMATION-VENV) \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ VIRTUAL_ENV_PROMPT=(LSTM-FORCE-ESTIMATION-VENV) /usr/bin/cmake --install /home/daeyun/LSTM-force-estimation/build/custom_interfaces
+[0.483s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(custom_interfaces)
+[0.484s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/daeyun/LSTM-force-estimation/build/custom_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/daeyun/LSTM-force-estimation/install/estimation_pkg:/opt/ros/humble PS1=(LSTM-FORCE-ESTIMATION-VENV) \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ VIRTUAL_ENV_PROMPT=(LSTM-FORCE-ESTIMATION-VENV) /usr/bin/cmake --install /home/daeyun/LSTM-force-estimation/build/custom_interfaces
+[0.485s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/custom_interfaces' for CMake module files
+[0.485s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/custom_interfaces' for CMake config files
+[0.485s] Level 1:colcon.colcon_core.shell:create_environment_hook('custom_interfaces', 'cmake_prefix_path')
+[0.485s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/hook/cmake_prefix_path.ps1'
+[0.486s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/hook/cmake_prefix_path.dsv'
+[0.486s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/hook/cmake_prefix_path.sh'
+[0.486s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/lib'
+[0.486s] Level 1:colcon.colcon_core.shell:create_environment_hook('custom_interfaces', 'ld_library_path_lib')
+[0.486s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/hook/ld_library_path_lib.ps1'
+[0.487s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/hook/ld_library_path_lib.dsv'
+[0.487s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/hook/ld_library_path_lib.sh'
+[0.487s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/bin'
+[0.487s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/lib/pkgconfig/custom_interfaces.pc'
+[0.487s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/lib/python3.10/site-packages'
+[0.487s] Level 1:colcon.colcon_core.shell:create_environment_hook('custom_interfaces', 'pythonpath')
+[0.487s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/hook/pythonpath.ps1'
+[0.487s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/hook/pythonpath.dsv'
+[0.487s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/hook/pythonpath.sh'
+[0.488s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/bin'
+[0.488s] INFO:colcon.colcon_core.shell:Creating package script '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/package.ps1'
+[0.488s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/package.dsv'
+[0.488s] INFO:colcon.colcon_core.shell:Creating package script '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/package.sh'
+[0.489s] INFO:colcon.colcon_core.shell:Creating package script '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/package.bash'
+[0.489s] INFO:colcon.colcon_core.shell:Creating package script '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/package.zsh'
+[0.489s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/colcon-core/packages/custom_interfaces)
+[0.567s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(custom_interfaces)
+[0.567s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/custom_interfaces' for CMake module files
+[0.567s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/custom_interfaces' for CMake config files
+[0.567s] Level 1:colcon.colcon_core.shell:create_environment_hook('custom_interfaces', 'cmake_prefix_path')
+[0.568s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/hook/cmake_prefix_path.ps1'
+[0.568s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/hook/cmake_prefix_path.dsv'
+[0.568s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/hook/cmake_prefix_path.sh'
+[0.568s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/lib'
+[0.568s] Level 1:colcon.colcon_core.shell:create_environment_hook('custom_interfaces', 'ld_library_path_lib')
+[0.568s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/hook/ld_library_path_lib.ps1'
+[0.569s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/hook/ld_library_path_lib.dsv'
+[0.569s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/hook/ld_library_path_lib.sh'
+[0.569s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/bin'
+[0.569s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/lib/pkgconfig/custom_interfaces.pc'
+[0.569s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/lib/python3.10/site-packages'
+[0.569s] Level 1:colcon.colcon_core.shell:create_environment_hook('custom_interfaces', 'pythonpath')
+[0.569s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/hook/pythonpath.ps1'
+[0.569s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/hook/pythonpath.dsv'
+[0.569s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/hook/pythonpath.sh'
+[0.570s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/bin'
+[0.570s] INFO:colcon.colcon_core.shell:Creating package script '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/package.ps1'
+[0.570s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/package.dsv'
+[0.570s] INFO:colcon.colcon_core.shell:Creating package script '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/package.sh'
+[0.570s] INFO:colcon.colcon_core.shell:Creating package script '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/package.bash'
+[0.570s] INFO:colcon.colcon_core.shell:Creating package script '/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/custom_interfaces/package.zsh'
+[0.571s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/daeyun/LSTM-force-estimation/install/custom_interfaces/share/colcon-core/packages/custom_interfaces)
+[0.571s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/daeyun/LSTM-force-estimation/src/estimation_pkg' with build type 'ament_python'
+[0.571s] Level 1:colcon.colcon_core.shell:create_environment_hook('estimation_pkg', 'ament_prefix_path')
+[0.571s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/daeyun/LSTM-force-estimation/install/estimation_pkg/share/estimation_pkg/hook/ament_prefix_path.ps1'
+[0.571s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/daeyun/LSTM-force-estimation/install/estimation_pkg/share/estimation_pkg/hook/ament_prefix_path.dsv'
+[0.571s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/daeyun/LSTM-force-estimation/install/estimation_pkg/share/estimation_pkg/hook/ament_prefix_path.sh'
+[0.572s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.572s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.708s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/daeyun/LSTM-force-estimation/src/estimation_pkg'
+[0.708s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.708s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.881s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/daeyun/LSTM-force-estimation/build/estimation_pkg': LD_LIBRARY_PATH=/home/daeyun/LSTM-force-estimation/install/custom_interfaces/lib:/usr/local/cuda-12.3/lib64:/usr/local/cuda-12.3/lib64:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib PS1=(LSTM-FORCE-ESTIMATION-VENV) \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ PYTHONPATH=/home/daeyun/LSTM-force-estimation/build/estimation_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/daeyun/LSTM-force-estimation/install/estimation_pkg/lib/python3.10/site-packages:/home/daeyun/LSTM-force-estimation/install/custom_interfaces/lib/python3.10/site-packages:/home/daeyun/LSTM-force-estimation/build/estimation_pkg:/home/daeyun/LSTM-force-estimation/install/estimation_pkg/lib/python3.10/site-packages:/home/daeyun/LSTM-force-estimation_venv/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages VIRTUAL_ENV_PROMPT=(LSTM-FORCE-ESTIMATION-VENV) /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py develop --editable --build-directory /home/daeyun/LSTM-force-estimation/build/estimation_pkg/build --no-deps symlink_data
+[1.103s] Level 1:colcon.colcon_core.shell:create_environment_hook('estimation_pkg', 'pythonpath_develop')
+[1.103s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/daeyun/LSTM-force-estimation/build/estimation_pkg/share/estimation_pkg/hook/pythonpath_develop.ps1'
+[1.104s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/daeyun/LSTM-force-estimation/build/estimation_pkg' returned '0': LD_LIBRARY_PATH=/home/daeyun/LSTM-force-estimation/install/custom_interfaces/lib:/usr/local/cuda-12.3/lib64:/usr/local/cuda-12.3/lib64:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib PS1=(LSTM-FORCE-ESTIMATION-VENV) \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ PYTHONPATH=/home/daeyun/LSTM-force-estimation/build/estimation_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/daeyun/LSTM-force-estimation/install/estimation_pkg/lib/python3.10/site-packages:/home/daeyun/LSTM-force-estimation/install/custom_interfaces/lib/python3.10/site-packages:/home/daeyun/LSTM-force-estimation/build/estimation_pkg:/home/daeyun/LSTM-force-estimation/install/estimation_pkg/lib/python3.10/site-packages:/home/daeyun/LSTM-force-estimation_venv/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages VIRTUAL_ENV_PROMPT=(LSTM-FORCE-ESTIMATION-VENV) /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py develop --editable --build-directory /home/daeyun/LSTM-force-estimation/build/estimation_pkg/build --no-deps symlink_data
+[1.104s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/daeyun/LSTM-force-estimation/build/estimation_pkg/share/estimation_pkg/hook/pythonpath_develop.dsv'
+[1.104s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/daeyun/LSTM-force-estimation/build/estimation_pkg/share/estimation_pkg/hook/pythonpath_develop.sh'
+[1.104s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/estimation_pkg' for CMake module files
+[1.105s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/estimation_pkg' for CMake config files
+[1.105s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/estimation_pkg/lib'
+[1.105s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/estimation_pkg/bin'
+[1.105s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/estimation_pkg/lib/pkgconfig/estimation_pkg.pc'
+[1.105s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/estimation_pkg/lib/python3.10/site-packages'
+[1.105s] Level 1:colcon.colcon_core.shell:create_environment_hook('estimation_pkg', 'pythonpath')
+[1.105s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/daeyun/LSTM-force-estimation/install/estimation_pkg/share/estimation_pkg/hook/pythonpath.ps1'
+[1.105s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/daeyun/LSTM-force-estimation/install/estimation_pkg/share/estimation_pkg/hook/pythonpath.dsv'
+[1.105s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/daeyun/LSTM-force-estimation/install/estimation_pkg/share/estimation_pkg/hook/pythonpath.sh'
+[1.106s] Level 1:colcon.colcon_core.environment:checking '/home/daeyun/LSTM-force-estimation/install/estimation_pkg/bin'
+[1.106s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(estimation_pkg)
+[1.106s] INFO:colcon.colcon_core.shell:Creating package script '/home/daeyun/LSTM-force-estimation/install/estimation_pkg/share/estimation_pkg/package.ps1'
+[1.106s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/daeyun/LSTM-force-estimation/install/estimation_pkg/share/estimation_pkg/package.dsv'
+[1.106s] INFO:colcon.colcon_core.shell:Creating package script '/home/daeyun/LSTM-force-estimation/install/estimation_pkg/share/estimation_pkg/package.sh'
+[1.106s] INFO:colcon.colcon_core.shell:Creating package script '/home/daeyun/LSTM-force-estimation/install/estimation_pkg/share/estimation_pkg/package.bash'
+[1.106s] INFO:colcon.colcon_core.shell:Creating package script '/home/daeyun/LSTM-force-estimation/install/estimation_pkg/share/estimation_pkg/package.zsh'
+[1.107s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/daeyun/LSTM-force-estimation/install/estimation_pkg/share/colcon-core/packages/estimation_pkg)
+[1.107s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[1.107s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[1.107s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[1.107s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[1.110s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[1.110s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[1.110s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[1.116s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[1.116s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/daeyun/LSTM-force-estimation/install/local_setup.ps1'
+[1.117s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/daeyun/LSTM-force-estimation/install/_local_setup_util_ps1.py'
+[1.117s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/daeyun/LSTM-force-estimation/install/setup.ps1'
+[1.117s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/daeyun/LSTM-force-estimation/install/local_setup.sh'
+[1.118s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/daeyun/LSTM-force-estimation/install/_local_setup_util_sh.py'
+[1.118s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/daeyun/LSTM-force-estimation/install/setup.sh'
+[1.118s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/daeyun/LSTM-force-estimation/install/local_setup.bash'
+[1.118s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/daeyun/LSTM-force-estimation/install/setup.bash'
+[1.119s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/daeyun/LSTM-force-estimation/install/local_setup.zsh'
+[1.119s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/daeyun/LSTM-force-estimation/install/setup.zsh'

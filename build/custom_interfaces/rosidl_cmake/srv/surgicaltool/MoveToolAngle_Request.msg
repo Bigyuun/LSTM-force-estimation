@@ -1,0 +1,9 @@
+#________________________________________________________
+# Tool tip angle
+#________________________________________________________
+
+# Request
+float64 tiltangle    # rad
+float64 panangle     # rad
+float64 gripangle    # rad
+int8    mode #= 0    # ABSOLUTE=0, RELATIVE=1

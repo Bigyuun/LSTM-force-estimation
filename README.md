@@ -14,6 +14,19 @@ Force estimation of continuum(hyper-redundant) manipulator using LSTM.
 ### result
 ![Image Description](https://github.com/Bigyuun/LSTM-force-estimation/blob/main/media/process_result.png)
 
+## Prerequisition
+```
+# pip module for create virtual environment
+sudo apt install python3.xx-venv  # e.g. python3.10-venv (humble)
+
+# make virtual env with --symlink
+python3 -m venv {env_name} --system-site-packages --symlinks
+
+source {env_name}/bin/activate
+
+# requirements
+pip install -r requirements.txt
+```
 
 ## Process
 ```
