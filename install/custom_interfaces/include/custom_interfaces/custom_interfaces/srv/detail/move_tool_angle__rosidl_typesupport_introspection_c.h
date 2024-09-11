@@ -1,1 +1,0 @@
-/home/daeyun/LSTM-force-estimation/build/custom_interfaces/rosidl_typesupport_introspection_c/custom_interfaces/srv/detail/move_tool_angle__rosidl_typesupport_introspection_c.h

@@ -1,3 +1,0 @@
-[console_scripts]
-segment_angle_estimator = estimation_pkg.segment_angle_estimation:main
-
