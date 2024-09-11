@@ -1,4 +1,7 @@
 .idea
+build
+install
+log
 data
 images_with_arrow_*
 videos/**.gif
