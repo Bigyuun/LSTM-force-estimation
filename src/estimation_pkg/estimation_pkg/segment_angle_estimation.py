@@ -11,9 +11,14 @@ from std_msgs.msg import Float32MultiArray
 from rclpy.executors import MultiThreadedExecutor
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
-from postprocess import RBSC
+
+from estimation_pkg.postprocess import RBSC
+# from postprocess import RBSC
 
 import threading
+import os
+
+print(f"[segment] Current Working Directory : {os.getcwd()}")
 
 class SegmentEstimationNode(Node):
   def __init__(self):
@@ -40,10 +45,11 @@ class SegmentEstimationNode(Node):
     # self.realsense_subscriber = RealSenseSubscriber()
     # color rectified image. RGB format
     self.br_rgb = CvBridge()
+    self.current_frame_flag = False
     self.color_image_rect_raw_subscriber = self.create_subscription(
         Image,
         "/camera/camera/color/image_raw",
-        # "camera/color/image_rect_raw",
+        # "camera/camera/color/image_rect_raw",
         self.color_image_rect_raw_callback,
         QOS_RKL1V)
     self.get_logger().info('realsense-camera subscriber is created.')
@@ -58,18 +64,25 @@ class SegmentEstimationNode(Node):
     self.segment_estimation_thread.start()
 
   def color_image_rect_raw_callback(self, data):
+    self.current_frame_flag = True
     self.capture_time = data.header.stamp
     self.current_frame = self.br_rgb.imgmsg_to_cv2(data, 'bgr8')
 
   def process(self):
     while rclpy.ok():
-      if self.current_frame:
-        self.rbsc.postprocess(self.current_frame)
+      if self.current_frame_flag:
+        # print(f'frame : {self.current_frame}')
+        suc = self.rbsc.postprocess(self.current_frame)
+        if suc == None:
+          continue
         self.joint_angle = self.rbsc.joint_angle  # radian
         msg = Float32MultiArray()
         msg.data = self.joint_angle.tolist()
         self.segment_angle_publisher.publish(msg)
-        print(f'pub data(joint_angle) : {msg.data}')
+        # print(f'pub data(joint_angle) : {msg.data}')
+      # else:
+      #   print(f'frame does not update - flag:{self.current_frame_flag}')
+        
 
 def main(args=None):
   rclpy.init(args=args)

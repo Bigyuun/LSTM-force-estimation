@@ -1,4 +1,5 @@
 import os
+import sys
 import glob
 import cv2
 import matplotlib.pyplot as plt
@@ -23,9 +24,13 @@ from scipy.integrate import quad, fixed_quad, quadrature
 from scipy.optimize import minimize
 from numpy.polynomial import Polynomial
 
-# image_path = '487_1723092780-883211914.png'
+from ament_index_python.packages import get_package_share_directory
+
+print(f"Current Working Directory : {os.getcwd()}")
+
+image_path = '487_1723092780-883211914.png'
 # image_path = '302_1723092774-710305664.png'
-image_path = '142_1723092769-375700928.png'
+# image_path = '142_1723092769-375700928.png'
 
 def create_directory(directory_path):
     if not os.path.exists(directory_path):
@@ -54,9 +59,14 @@ class RBSC:
         pass
 
     def load_config(self, config_file):
+
+        package_share_directory = get_package_share_directory('estimation_pkg')
+        config_path = os.path.join(package_share_directory, config_file)
+        print(f'config.json PATH: {config_path}')
+        
         print(f'Load {config_file}')
         print(f'===== json list ======')
-        with open(config_file, 'r') as f:
+        with open(config_path, 'r') as f:
             config = json.load(f)
             # print
             for key, value in config.items():
@@ -311,12 +321,16 @@ class RBSC:
         print(f'joint_angle (rad) = {self.joint_angle}')
         print(f'joint_angle (deg) = {self.joint_angle_degree}')
 
-    def postprocess(self, image_path, binary_thresh=127, filfinder_flag=False):
+    def postprocess(self, image, binary_thresh=127, filfinder_flag=False):
 
         # ========== post processing ==========
         # 1. read as grayscale
-        self.image_path = image_path
-        self.gray_image = cv2.imread(self.image_path, cv2.IMREAD_GRAYSCALE)
+        self.image = image
+        if image is None or image.size == 0:
+            print("Error: 입력 이미지가 비어 있습니다.")
+            return
+        self.gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        # self.gray_image = cv2.imread(self.image_path, cv2.IMREAD_GRAYSCALE)
         self.image_w, self.image_h = self.gray_image.shape[1], self.gray_image.shape[0]
 
         # 2. Binarization
@@ -658,7 +672,8 @@ class RBSC:
 
 if __name__ == '__main__':
     rbsc = RBSC()
-    rbsc.postprocess(image_path)
+    image = cv2.imread(image_path, cv2.IMREAD_COLOR)
+    rbsc.postprocess(image)
     rbsc.show()
 
     # img_dir = 'data/2024-08-08 experiment/2024-08-08-13-52-44 nopayload/images'
@@ -674,7 +689,8 @@ if __name__ == '__main__':
     create_directory(dir_name)
     for image_name in tqdm(images):
         image_path = os.path.join(img_dir, image_name)
-        rbsc.postprocess(image_path)
+        image = cv2.imread(image_path, cv2.IMREAD_COLOR)
+        rbsc.postprocess(image)
         rbsc.plot_save(dir_name)
 
     # sampling time test
@@ -682,7 +698,7 @@ if __name__ == '__main__':
     st = time.time()
     for i in tqdm(range(n)):
         # cProfile.run('rbsc.postprocess(image_path)')
-        rbsc.postprocess(image_path)
+        rbsc.postprocess(image)
         # rbsc.plot_save()
         # print(f'num of sequence = {i}')
     et = time.time()

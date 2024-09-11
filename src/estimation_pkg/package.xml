@@ -3,9 +3,16 @@
 <package format="3">
   <name>estimation_pkg</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="daeyun@todo.todo">daeyun</maintainer>
+  <description>segment angel and external force estimator</description>
+  <maintainer email="bigyun9375@gmail.com">daeyun</maintainer>
   <license>Apache-2.0</license>
+
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>custom_interfaces</depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
