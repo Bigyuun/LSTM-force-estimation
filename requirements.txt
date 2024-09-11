@@ -29,6 +29,7 @@ cv-bridge==3.2.1
 cycler==0.12.1
 demo-nodes-py==0.20.4
 diagnostic-msgs==4.2.4
+diagnostic-updater==4.0.0
 domain-coordinator==0.10.0
 example-interfaces==0.9.3
 examples-rclpy-executors==0.15.1
@@ -123,6 +124,7 @@ quality-of-service-demo-py==0.20.4
 rcl-interfaces==1.2.1
 rclpy==3.3.13
 rcutils==5.1.6
+realsense2-camera-msgs==4.55.1
 requests==2.32.3
 requests-oauthlib==2.0.0
 resource-retriever==3.1.2
@@ -218,3 +220,4 @@ urllib3==2.2.2
 visualization-msgs==4.2.4
 Werkzeug==3.0.4
 wrapt==1.16.0
+xacro==2.0.8
