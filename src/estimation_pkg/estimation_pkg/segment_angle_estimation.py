@@ -64,11 +64,11 @@ class SegmentEstimationNode(Node):
     )
 
     self.segment_estimation_thread = threading.Thread(target=self.process)
-    self.plot_show_thread = threading.Thread(target=self.plot_show)
+    self.realtime_show_thread = threading.Thread(target=self.realtime_show)
     self.event = threading.Event()
 
     self.segment_estimation_thread.start()
-    self.plot_show_thread.start()
+    self.realtime_show_thread.start()
 
   def color_image_rect_raw_callback(self, data):
     self.current_frame_flag = True
@@ -91,47 +91,26 @@ class SegmentEstimationNode(Node):
       # else:
       #   print(f'frame does not update - flag:{self.current_frame_flag}')
   
-  def plot_show(self):
+  def realtime_show(self):
     self.get_logger().info('Waiting the first curvefit process...')
     self.event.wait()
-    self.get_logger().info('finish curvefit process')
-
-    # Drawing multiple arrows on the image using a loop
-    def draw_arrows(image, pixel_yx, u, v):
-      for i in range(len(u)):
-          start_point = (int(pixel_yx[i, 1]), int(pixel_yx[i, 0]))  # yx needs to be flipped for cv2
-          end_point = (int(start_point[0] + u[i]), int(start_point[1] + v[i]))  # u and v provide direction
-          
-          # Draw the arrow line for each point
-          cv2.arrowedLine(image, start_point, end_point, (255, 0, 0), 2, tipLength=0.3)
+    self.get_logger().info('finish curvefit process. realtime_show start.')
 
     while rclpy.ok():
       if self.current_frame_flag:
         try:
-          # Compute arrow vectors
-          frame = self.current_frame
-          rads = self.rbsc.joint_angle + np.pi/2
-          arrow_length = 15
-          u = np.cos(rads) * arrow_length
-          v = np.sin(rads) * arrow_length
-          v = -v  # Reverse v to match the original behavior
+          # if fitting prcoess is faster than image fps, use this.
+          # cv2.imshow('Real-time Image with Joint Points and Arrows', self.rbsc.image_rgb_with_landmarks)
 
-          # Draw joint points and arrows
-          pixel_yx = np.flip(self.rbsc.joint_yx_pixel, axis=0)
-          for point in pixel_yx:
-            cv2.circle(frame, (int(point[1]), int(point[0])), 2, (0, 0, 255), -1)  # Red dots for joints
-
-          # Draw the arrows
-          draw_arrows(frame, pixel_yx, u, v)
-        except Exception as e:
-          self.get_logger().info(f'plot_show() Error : {e}')
-
-        finally:
-          # Display the frame in a window
-          cv2.imshow('Real-time Grayscale Image with Joint Points and Arrows', frame)
+          # if fitting process is slower than image fps, use this.
+          landmark_image = self.rbsc.draw_arrows(self.current_frame)
+          cv2.imshow('Real-time Image with Joint Points and Arrows', landmark_image)
 
           if cv2.waitKey(1) & 0xFF == ord('q'):
             continue
+
+        except Exception as e:
+          self.get_logger().info(f'realtime_show() Error : {e}')
     
     # Cleanup
     cv2.destroyAllWindows()
