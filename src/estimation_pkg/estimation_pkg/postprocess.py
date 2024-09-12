@@ -1,6 +1,8 @@
 import os
 import sys
 import glob
+from xml.sax.saxutils import escape
+
 import cv2
 import matplotlib.pyplot as plt
 import time
@@ -25,7 +27,6 @@ from scipy.optimize import minimize
 from numpy.polynomial import Polynomial
 
 from ament_index_python.packages import get_package_share_directory
-
 print(f"Current Working Directory : {os.getcwd()}")
 
 image_path = '487_1723092780-883211914.png'
@@ -316,62 +317,67 @@ class RBSC:
         self.joint_angle[0] = joint_0_theta
         self.joint_angle_degree[0] = np.degrees(self.joint_angle[0])
 
-        print(f'joints = {self.joints_xy}')
-        print(f'joint_tangent = {self.joint_tangents}')
-        print(f'joint_angle (rad) = {self.joint_angle}')
-        print(f'joint_angle (deg) = {self.joint_angle_degree}')
+        # print(f'joints = {self.joints_xy}')
+        # print(f'joint_tangent = {self.joint_tangents}')
+        # print(f'joint_angle (rad) = {self.joint_angle}')
+        # print(f'joint_angle (deg) = {self.joint_angle_degree}')
 
     def postprocess(self, image, binary_thresh=127, filfinder_flag=False):
+        try:
+            # ========== post processing ==========
+            # 1. read as grayscale
+            self.image = image
+            if image is None or image.size == 0:
+                # print("Error: image : {image}")
+                return
+            self.gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            # self.gray_image = cv2.imread(self.image_path, cv2.IMREAD_GRAYSCALE)
+            self.image_w, self.image_h = self.gray_image.shape[1], self.gray_image.shape[0]
 
-        # ========== post processing ==========
-        # 1. read as grayscale
-        self.image = image
-        if image is None or image.size == 0:
-            print("Error: 입력 이미지가 비어 있습니다.")
+            # 2. Binarization
+            # 임계값 설정 (예: 127)
+            thresh_value = binary_thresh
+            _, self.binary_image = cv2.threshold(self.gray_image, thresh_value, 255, cv2.THRESH_BINARY)
+
+            # 3. Find connected commponets
+            num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(self.binary_image, connectivity=8)
+            if num_labels < 1:
+                return
+
+            # 4. Find the largest componnet
+            max_label = 1 + np.argmax(stats[1:, cv2.CC_STAT_AREA])
+
+            # 5. Leave only the largest commpent (it is body)
+            self.body_image_origin = (labels == max_label).astype(np.uint8) * 255
+            self.body_image = self.smoothing(binary=self.body_image_origin, k_size=15)
+
+            # ========== Find skeleton of backbone ==========
+            # perform skeletonization
+            self.skeleton = skeletonize(self.body_image, method='lee')
+
+            ####################################################################
+            '''
+            TODO
+            샘플링 타임에 가장 시간 많이쓰는 구간
+            없애던지 대체해야될것같기도... smoothing때문에 안해도 될것 같기도...
+            '''
+            # Find the longest curve of backbone
+            if filfinder_flag == True:
+                fil = FilFinder2D(self.skeleton, distance=250 * u.pc, mask=self.skeleton)
+                fil.preprocess_image(flatten_percent=85)
+                fil.create_mask(border_masking=True, verbose=False, use_existing_mask=True)
+                fil.medskel(verbose=False)
+                fil.analyze_skeletons(branch_thresh=40 * u.pix, skel_thresh=30 * u.pix, prune_criteria='length')
+                self.longest_backbone_image = fil.skeleton_longpath
+            else:
+                self.longest_backbone_image = np.copy(self.skeleton)
+            ####################################################################
+
+            self.pixel_to_orthogonal_coordinate(self.longest_backbone_image)
+        except Exception as e:
+            print(f'postprocess error : {e}')
             return
-        self.gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        # self.gray_image = cv2.imread(self.image_path, cv2.IMREAD_GRAYSCALE)
-        self.image_w, self.image_h = self.gray_image.shape[1], self.gray_image.shape[0]
-
-        # 2. Binarization
-        # 임계값 설정 (예: 127)
-        thresh_value = binary_thresh
-        _, self.binary_image = cv2.threshold(self.gray_image, thresh_value, 255, cv2.THRESH_BINARY)
-
-        # 3. Find connected commponets
-        num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(self.binary_image, connectivity=8)
-
-        # 4. Find the largest componnet
-        max_label = 1 + np.argmax(stats[1:, cv2.CC_STAT_AREA])
-
-        # 5. Leave only the largest commpent (it is body)
-        self.body_image_origin = (labels == max_label).astype(np.uint8) * 255
-        self.body_image = self.smoothing(binary=self.body_image_origin, k_size=15)
-
-        # ========== Find skeleton of backbone ==========
-        # perform skeletonization
-        self.skeleton = skeletonize(self.body_image, method='lee')
-
-        ####################################################################
-        '''
-        TODO
-        샘플링 타임에 가장 시간 많이쓰는 구간
-        없애던지 대체해야될것같기도... smoothing때문에 안해도 될것 같기도...
-        '''
-        # Find the longest curve of backbone
-        if filfinder_flag == True:
-            fil = FilFinder2D(self.skeleton, distance=250 * u.pc, mask=self.skeleton)
-            fil.preprocess_image(flatten_percent=85)
-            fil.create_mask(border_masking=True, verbose=False, use_existing_mask=True)
-            fil.medskel(verbose=False)
-            fil.analyze_skeletons(branch_thresh=40 * u.pix, skel_thresh=30 * u.pix, prune_criteria='length')
-            self.longest_backbone_image = fil.skeleton_longpath
-        else:
-            self.longest_backbone_image = np.copy(self.skeleton)
-        ####################################################################
-
-        self.pixel_to_orthogonal_coordinate(self.longest_backbone_image)
-
+        
         # ========== Curve fitting ==========
         try:
             # 데이터 가중치 설정
@@ -471,6 +477,8 @@ class RBSC:
             self.joints_invtrans_xy = self.rotation_matrix(self.joints_xy, theta=90)
             self.joint_yx_pixel = self.orthogonal_to_pixel_coordinate(self.joints_invtrans_xy)
 
+            self.image_rgb_with_landmarks = self.draw_arrows(self.image)
+
             a=0
 
         except Exception as e:
@@ -478,6 +486,32 @@ class RBSC:
 
         finally:
             return self.popt_poly4d, self.popt_poly3d, self.popt_log
+
+    def draw_arrows(self, image):
+        try:
+            # Compute arrow vectors
+            frame = image
+            rads = self.joint_angle + np.pi / 2
+            arrow_length = 15
+            u = np.cos(rads) * arrow_length
+            v = np.sin(rads) * arrow_length
+            v = -v  # Reverse v to match the original behavior
+
+            # Draw joint points and arrows
+            pixel_yx = np.flip(self.joint_yx_pixel, axis=0)
+            for point in pixel_yx:
+                cv2.circle(frame, (int(point[1]), int(point[0])), 2, (0, 0, 255), -1)  # Red dots for joints
+
+            for i in range(len(u)):
+                start_point = (int(pixel_yx[i, 1]), int(pixel_yx[i, 0]))  # yx needs to be flipped for cv2
+                end_point = (int(start_point[0] + u[i]), int(start_point[1] + v[i]))  # u and v provide direction
+                # Draw the arrow line for each point
+                cv2.arrowedLine(frame, start_point, end_point, (255, 0, 0), 2, tipLength=0.3)
+
+            return frame
+        except Exception as e:
+            print(f'draw_arrows() error: {e}')
+            return
 
     def plot_save(self, save_dir):
         # results

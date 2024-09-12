@@ -17,6 +17,8 @@ from estimation_pkg.postprocess import RBSC
 
 import threading
 import os
+import numpy as np
+import cv2
 
 print(f"[segment] Current Working Directory : {os.getcwd()}")
 
@@ -25,6 +27,7 @@ class SegmentEstimationNode(Node):
     self.current_frame = None
     self.rbsc = RBSC()
     self.segment_angle = None
+    # self.joint_angle = np.array(0)
 
     super().__init__('segment_estimation_node')
     self.declare_parameter('qos_depth', 1)
@@ -61,7 +64,11 @@ class SegmentEstimationNode(Node):
     )
 
     self.segment_estimation_thread = threading.Thread(target=self.process)
+    self.plot_show_thread = threading.Thread(target=self.plot_show)
+    self.event = threading.Event()
+
     self.segment_estimation_thread.start()
+    self.plot_show_thread.start()
 
   def color_image_rect_raw_callback(self, data):
     self.current_frame_flag = True
@@ -71,7 +78,6 @@ class SegmentEstimationNode(Node):
   def process(self):
     while rclpy.ok():
       if self.current_frame_flag:
-        # print(f'frame : {self.current_frame}')
         suc = self.rbsc.postprocess(self.current_frame)
         if suc == None:
           continue
@@ -79,10 +85,57 @@ class SegmentEstimationNode(Node):
         msg = Float32MultiArray()
         msg.data = self.joint_angle.tolist()
         self.segment_angle_publisher.publish(msg)
+
+        self.event.set()
         # print(f'pub data(joint_angle) : {msg.data}')
       # else:
       #   print(f'frame does not update - flag:{self.current_frame_flag}')
-        
+  
+  def plot_show(self):
+    self.get_logger().info('Waiting the first curvefit process...')
+    self.event.wait()
+    self.get_logger().info('finish curvefit process')
+
+    # Drawing multiple arrows on the image using a loop
+    def draw_arrows(image, pixel_yx, u, v):
+      for i in range(len(u)):
+          start_point = (int(pixel_yx[i, 1]), int(pixel_yx[i, 0]))  # yx needs to be flipped for cv2
+          end_point = (int(start_point[0] + u[i]), int(start_point[1] + v[i]))  # u and v provide direction
+          
+          # Draw the arrow line for each point
+          cv2.arrowedLine(image, start_point, end_point, (255, 0, 0), 2, tipLength=0.3)
+
+    while rclpy.ok():
+      if self.current_frame_flag:
+        try:
+          # Compute arrow vectors
+          frame = self.current_frame
+          rads = self.rbsc.joint_angle + np.pi/2
+          arrow_length = 15
+          u = np.cos(rads) * arrow_length
+          v = np.sin(rads) * arrow_length
+          v = -v  # Reverse v to match the original behavior
+
+          # Draw joint points and arrows
+          pixel_yx = np.flip(self.rbsc.joint_yx_pixel, axis=0)
+          for point in pixel_yx:
+            cv2.circle(frame, (int(point[1]), int(point[0])), 2, (0, 0, 255), -1)  # Red dots for joints
+
+          # Draw the arrows
+          draw_arrows(frame, pixel_yx, u, v)
+        except Exception as e:
+          self.get_logger().info(f'plot_show() Error : {e}')
+
+        finally:
+          # Display the frame in a window
+          cv2.imshow('Real-time Grayscale Image with Joint Points and Arrows', frame)
+
+          if cv2.waitKey(1) & 0xFF == ord('q'):
+            continue
+    
+    # Cleanup
+    cv2.destroyAllWindows()
+
 
 def main(args=None):
   rclpy.init(args=args)
