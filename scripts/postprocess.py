@@ -515,7 +515,7 @@ class RBSC:
             print(f'draw_arrows() error: {e}')
             return
 
-    def plot_save(self, save_dir):
+    def plot_save(self, save_dir, image_name):
         # results
         # rads = -np.deg2rad(self.joint_angle_degree)
         rads = self.joint_angle + np.pi / 2
@@ -546,7 +546,7 @@ class RBSC:
 
         # 이미지를 파일로 저장
         dir_name = save_dir
-        image_filename = os.path.basename(self.image_path)
+        image_filename = image_name
         plt.savefig(os.path.join(dir_name, image_filename), bbox_inches='tight', pad_inches=0)
 
     def show(self):
@@ -722,7 +722,8 @@ if __name__ == '__main__':
     rbsc.show()
 
     # img_dir = 'data/2024-08-08 experiment/2024-08-08-13-52-44 nopayload/images'
-    img_dir = 'data/2024-08-08 experiment/2024-08-08-13-46-11 upper_init-X/images'
+    dir_path = '../data/2024-08-08 experiment/2024-08-08-13-46-11 upper_init-X'
+    img_dir = os.path.join(dir_path, 'images')
     images = [img for img in os.listdir(img_dir) if img.endswith(".png") or img.endswith(".jpg")]
     images = natsorted(images)
 
@@ -730,13 +731,13 @@ if __name__ == '__main__':
     current_time = datetime.now()
     time_str = current_time.strftime("%Y%m%d_%H%M%S")
 
-    dir_name = f'images_with_arrow_{time_str}'
+    dir_name = os.path.join(dir_path, f'images_with_arrow_{time_str}')
     create_directory(dir_name)
     for image_name in tqdm(images):
         image_path = os.path.join(img_dir, image_name)
         image = cv2.imread(image_path, cv2.IMREAD_COLOR)
         rbsc.postprocess(image)
-        rbsc.plot_save(dir_name)
+        rbsc.plot_save(dir_name, image_name)
 
     # sampling time test
     n = 100

@@ -35,14 +35,42 @@ python postprocess.py
 ```
 
 ## LSTM model
+
+---
+
+<details>
+<summary>Post-process of custom data (provided)</summary>
+
+<https://drive.google.com/file/d/1_4A-9XO9phco3tF5dqtNVLMGjcR7xW1V/view?usp=drive_link>
 ```
+mkdir data
+wget https://drive.google.com/file/d/1_4A-9XO9phco3tF5dqtNVLMGjcR7xW1V/view?usp=drive_link
+cd data
+unzip 2024-08-08 experiment.zip
+```
+Then, enter each subdirectories (e.g. `2024-08-08-13-46-11 upper_init-X`)
+and take out `data_LPF_*`, `results/curve_fit_result-joint_angle_*`
+to `{PROJECT_DIR}/datasets/train`
+(Please check the tree of `datasets` directory on git)
+
+</details>
+
+---
+### Train
+```
+! Check
+source {env_name}/bin/activate
+
 # train
+cd scripts
 python LSTM_train.py
 
 # show
+cd scripts
 python LSTM_train.tensorboard.py
 
 # predict (test)
+cd scripts
 python LSTM_predict.py
 ```
 

@@ -3,9 +3,18 @@ import os
 from natsort import natsorted
 import imageio
 
+def create_directory(directory_path):
+    if not os.path.exists(directory_path):
+        os.makedirs(directory_path)
+        print(f"Directory {directory_path} created.")
+    else:
+        print(f"Directory {directory_path} already exists.")
+
 # 이미지가 저장된 디렉토리 경로
-name = 'images_with_arrow_20240821_163307'
-image_folder = os.path.join(name)
+name = 'images_with_arrow_20240919_162607'
+image_folder = os.path.join('../data/2024-08-08 experiment/2024-08-08-13-46-11 upper_init-X', name)
+
+create_directory('videos')
 video_name = 'videos/' + name + '.avi'
 video_name_mp4 = 'videos/' + name + '.mp4'
 gif_name = 'videos/' + name + '.gif'

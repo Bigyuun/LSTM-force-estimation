@@ -81,6 +81,8 @@ def process(dir_path, rbsc: RBSC, do_LPF=True, do_curvefit=True):
             data_temp[column] = filtered_values
 
         ###
+        # Not use in LSTM_train.py
+        # Just check and debug on .csv file
         scaler = MinMaxScaler()
         columns_to_normalized = ['wire length #0', 'wire length #1', 'loadcell #0', 'loadcell #1', 'fx', 'fy', 'fz', 'tx', 'ty', 'tz']
         for column in columns_to_normalized:
@@ -105,7 +107,7 @@ def process(dir_path, rbsc: RBSC, do_LPF=True, do_curvefit=True):
 
         # 파일이 존재할 경우 사용자에게 확인 요청
         if os.path.exists(filtered_file_path):
-            response = input(f"File {filtered_file_path} already exists. Do you want to overwrite it? (y/n): ")
+            response = input(f"File {filtered_file_path} already exists.\nDo you want to overwrite it? (y/n): ")
             if response.lower() != 'y':
                 print("Operation cancelled.")
                 exit()
@@ -189,7 +191,7 @@ def process(dir_path, rbsc: RBSC, do_LPF=True, do_curvefit=True):
 # 이미지 프로세싱 클래스
 rbsc = RBSC()
 
-base_dir = '../data/2024-08-08 experiment'
+base_dir = '../data/2024-08-07 experiment'
 # 최상위 폴더 내의 모든 하위 폴더를 탐색
 subfolders = [os.path.join(base_dir, name) for name in os.listdir(base_dir)
               if os.path.isdir(os.path.join(base_dir, name))]
