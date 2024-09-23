@@ -86,17 +86,18 @@ early_stopping = EarlyStopping(monitor='val_loss', patience=10, restore_best_wei
 #
 # # LSTM 모델 구성
 model = tf.keras.Sequential([
-    tf.keras.layers.Input(shape=(X_train.shape[1], 1)),  # 입력 형식 (입력 차원, 1)
-    tf.keras.layers.LSTM(64, return_sequences=True),
-    tf.keras.layers.LSTM(64),
-    tf.keras.layers.Dense(32, activation='relu'),
+    tf.keras.layers.Input(shape=(X_train.shape[1], 1)),
+    tf.keras.layers.LSTM(128, return_sequences=True, dropout=0.2),  # 드롭아웃 추가
+    tf.keras.layers.LSTM(128, dropout=0.2),
+    tf.keras.layers.Dense(64, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)),  # 정규화 추가
+    tf.keras.layers.Dense(32, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)),  # 정규화 추가
     tf.keras.layers.Dense(2)
 ])
 
 model.compile(optimizer=Adam(learning_rate=0.001), loss=tf.keras.losses.MeanSquaredError(), metrics=['mae'])
 
 # 모델 학습
-history = model.fit(X_train, y_train, epochs=200, batch_size=128, validation_data=(X_val, y_val), callbacks=[tensorboard_callback], verbose=1)
+history = model.fit(X_train, y_train, epochs=200, batch_size=64, validation_data=(X_val, y_val), callbacks=[tensorboard_callback], verbose=1)
 
 # 모델 평가
 loss, mae = model.evaluate(X_val, y_val, verbose=1)
