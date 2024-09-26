@@ -12,7 +12,9 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
         (os.path.join('share', package_name, 'launch'), glob.glob(os.path.join('launch', '*launch.[pxy][yma]*'))),
-        (os.path.join('share', package_name), ['estimation_pkg/config.json'])
+        (os.path.join('share', package_name), ['estimation_pkg/config.json']),
+        # (os.path.join('share', package_name, 'config'), glob('config/*.perspective')),
+        (os.path.join('share', package_name), ['config/rqt_perspective/rqt_setting.perspective'])
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -24,7 +26,7 @@ setup(
     entry_points={
         'console_scripts': [
           'segment_angle_estimator = estimation_pkg.segment_angle_estimation:main',
-        #   'external_force_estimator = estimation_pkg.external_force_estimation:main'
+          'external_force_estimator = estimation_pkg.external_force_estimation:main'
         ],
     },
 )

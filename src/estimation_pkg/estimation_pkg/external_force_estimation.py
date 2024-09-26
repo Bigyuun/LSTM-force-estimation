@@ -27,18 +27,36 @@ import joblib
 import pandas as pd
 from glob import glob
 import datetime
-
+import os
 import threading
+import traceback
 
 class ExternalForceEstimationNode(Node):
   
   def __init__(self):
-    self.model = tf.keras.models.load_model('fit/20240807-185538/lstm_model.h5')
-    # 스케일러 불러오기
-    self.scaler_X = joblib.load('fit/20240807-185538/scaler_X.pkl')
-    self.scaler_y = joblib.load('fit/20240807-185538/scaler_y.pkl')
-
     super().__init__('external_force_estimation_node')
+
+    print("============================")
+    print(os.getcwd())
+    print(os.path.abspath(__file__))
+    print("============================")
+    
+    self.declare_parameter('model_path', 'model/lstm_model.h5')
+    self.model_path = self.get_parameter('model_path').get_parameter_value().string_value
+    self.declare_parameter('scaler_x_path', 'model/scaler_x.pkl')
+    self.scaler_x_path = self.get_parameter('scaler_x_path').get_parameter_value().string_value
+    self.declare_parameter('scaler_y_path', 'model/scaler_y.pkl')
+    self.scaler_y_path = self.get_parameter('scaler_y_path').get_parameter_value().string_value
+    
+    self.model = tf.keras.models.load_model(self.model_path)
+    # self.model = tf.keras.models.load_model('model/lstm_model.h5')
+
+    # 스케일러 불러오기
+    self.scaler_x = joblib.load(self.scaler_x_path)
+    self.scaler_y = joblib.load(self.scaler_y_path)
+    # self.scaler_x = joblib.load('model/scaler_x.pkl')
+    # self.scaler_y = joblib.load('model/scaler_y.pkl')
+
     self.declare_parameter('qos_depth', 1)
     qos_depth = self.get_parameter('qos_depth').value
     QOS_RKL1V = QoSProfile(
@@ -54,22 +72,22 @@ class ExternalForceEstimationNode(Node):
             durability=QoSDurabilityPolicy.VOLATILE
     )
 
-    self.fts_data_flag = False
-    self.fts_data = WrenchStamped()
-    self.fts_subscriber = self.create_subscription(
-        WrenchStamped,
-        'fts_data',
-        self.read_fts_data,
-        QOS_RKL1V
-    )
-    self.fts_data_offset = WrenchStamped()
-    self.fts_offset_subscriber = self.create_subscription(
-        WrenchStamped,
-        'fts_data_offset',
-        self.read_fts_data_offset,
-        QOS_RKL1V
-    )
-    self.get_logger().info('fts_data subscriber is created.')
+    # self.fts_data_flag = False
+    # self.fts_data = WrenchStamped()
+    # self.fts_subscriber = self.create_subscription(
+    #     WrenchStamped,
+    #     'fts_data',
+    #     self.read_fts_data,
+    #     QOS_RKL1V
+    # )
+    # self.fts_data_offset = WrenchStamped()
+    # self.fts_offset_subscriber = self.create_subscription(
+    #     WrenchStamped,
+    #     'fts_data_offset',
+    #     self.read_fts_data_offset,
+    #     QOS_RKL1V
+    # )
+    # self.get_logger().info('fts_data subscriber is created.')
 
     self.loadcell_data_flag = False
     self.loadcell_data = LoadcellState()
@@ -88,7 +106,6 @@ class ExternalForceEstimationNode(Node):
     )
     self.get_logger().info('loadcell_data subscriber is created.')
 
-    self.get_logger().info('motor_state subscriber is created.')
     
     self.wire_length_flag = False
     self.wire_length = Float32MultiArray()
@@ -99,16 +116,18 @@ class ExternalForceEstimationNode(Node):
         QOS_RKL1V
     )
     self.get_logger().info('wire_length subscriber is created.')
-
+    
+    self.segment_angle = Float32MultiArray()
     self.segment_angle_subscriber = self.create_subscription(
         Float32MultiArray,
-        "segment_angle",
+        "estimated_segment_angle",
         self.segment_angle_callback,
         QOS_RKL1V)
 
+    self.external_force = Vector3()
     self.external_force_publisher = self.create_publisher(
       Vector3,
-      'estimation_external_force',
+      'estimated_external_force',
       QOS_RKL1V
     )
 
@@ -131,21 +150,38 @@ class ExternalForceEstimationNode(Node):
       self.wire_length = msg
 
   def segment_angle_callback(self, msg):
-    self.segment_angle = msg.data
+    self.segment_angle = msg
 
-  def estimation_process(self, data):
+  def estimation_process(self):
     """
     TODO
     LSTM force estimation code update...
     """
+    self.get_logger().info(f'LSTM estimation start')
     while rclpy.ok():
       try:
-        wl = self.wire_length
-        lc = self.loadcell_data
-        segment_angle = self.segment_angle
+        wl = self.wire_length.data
+        lc = self.loadcell_data.stress
+        segment_angle = self.segment_angle.data
 
-        input = np.array([ wl + lc + segment_angle])
-        predicted_normalized = self.model()
+        self.get_logger().info(f'wl:{wl}\n lc:{lc} \n segment_angle:{segment_angle}')
+
+        # input = np.array([ wl + lc + segment_angle])
+        input = np.concatenate((wl, lc, segment_angle))
+        input_for_model = input.reshape((1, 12, 1))
+        self.get_logger().info(f'input data: {input_for_model}')
+        predicted_normalized = self.model(input_for_model)
+        predicted_denormalized = self.scaler_y.inverse_transform(predicted_normalized)
+        self.get_logger().info(f'estimation results: {predicted_denormalized}, size:{predicted_denormalized.size}, shape:{predicted_denormalized.shape} ')
+
+        self.external_force.x = predicted_denormalized.flatten()[0]
+        self.external_force.y = predicted_denormalized.flatten()[1]
+        self.external_force_publisher.publish(self.external_force)
+
+      except Exception as e:
+         self.get_logger().info(f'Exception: {e}')
+         traceback.print_exc()
+         pass
       finally:
          pass
     pass

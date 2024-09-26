@@ -19,6 +19,7 @@ import threading
 import os
 import numpy as np
 import cv2
+import traceback
 
 print(f"[segment] Current Working Directory : {os.getcwd()}")
 
@@ -28,6 +29,10 @@ class SegmentEstimationNode(Node):
     self.rbsc = RBSC()
     self.segment_angle = None
     # self.joint_angle = np.array(0)
+    print("============================")
+    print(os.getcwd())
+    print(os.path.abspath(__file__))
+    print("============================")
 
     super().__init__('segment_estimation_node')
     self.declare_parameter('qos_depth', 1)
@@ -47,7 +52,8 @@ class SegmentEstimationNode(Node):
 
     # self.realsense_subscriber = RealSenseSubscriber()
     # color rectified image. RGB format
-    self.br_rgb = CvBridge()
+    self.br_rgb = CvBridge()  # CvBridge can deal with several process --> can use both subscription and publishment
+
     self.current_frame_flag = False
     self.color_image_rect_raw_subscriber = self.create_subscription(
         Image,
@@ -57,11 +63,21 @@ class SegmentEstimationNode(Node):
         QOS_RKL1V)
     self.get_logger().info('realsense-camera subscriber is created.')
 
+    self.segment_angle_image = Image()
+    self.segment_angle_image_publisher = self.create_publisher(
+      Image,
+      'estimated_segment_angle_image',
+      QOS_RKL10V
+    )
+
+    ###
     self.segment_angle_publisher = self.create_publisher(
        Float32MultiArray,
-       "segment_angle",
+       "estimated_segment_angle",
        QOS_RKL10V
     )
+
+    
 
     self.segment_estimation_thread = threading.Thread(target=self.process)
     self.realtime_show_thread = threading.Thread(target=self.realtime_show)
@@ -101,16 +117,18 @@ class SegmentEstimationNode(Node):
         try:
           # if fitting prcoess is faster than image fps, use this.
           # cv2.imshow('Real-time Image with Joint Points and Arrows', self.rbsc.image_rgb_with_landmarks)
-
           # if fitting process is slower than image fps, use this.
           landmark_image = self.rbsc.draw_arrows(self.current_frame)
-          cv2.imshow('Real-time Image with Joint Points and Arrows', landmark_image)
+          landmark_image_msg = self.br_rgb.cv2_to_imgmsg(landmark_image, 'bgr8')
+          self.segment_angle_image_publisher.publish(landmark_image_msg)
+          # cv2.imshow('Real-time Image with Joint Points and Arrows', landmark_image)
 
-          if cv2.waitKey(1) & 0xFF == ord('q'):
-            continue
+          # if cv2.waitKey(1) & 0xFF == ord('q'):
+          #   continue
 
         except Exception as e:
           self.get_logger().info(f'realtime_show() Error : {e}')
+          traceback.print_exc()
     
     # Cleanup
     cv2.destroyAllWindows()

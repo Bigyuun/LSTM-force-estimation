@@ -71,7 +71,7 @@ x_normalized = np.concatenate([x_non_joint_angle_normalized, x_joint_angle], axi
 x_train, x_val, y_train, y_val = train_test_split(x_normalized, y_normalized, test_size=0.2, random_state=42)
 
 # 스케일러 저장
-joblib.dump(scaler_X, os.path.join(save_dir, 'scaler_X.pkl'))
+joblib.dump(scaler_X, os.path.join(save_dir, 'scaler_x.pkl'))
 joblib.dump(scaler_y, os.path.join(save_dir, 'scaler_y.pkl'))
 
 # 입력 데이터 차원 조정 (LSTM에 맞게)

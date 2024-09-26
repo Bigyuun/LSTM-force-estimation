@@ -16,6 +16,7 @@
 import launch
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
+from launch.actions import ExecuteProcess
 from launch.substitutions import LaunchConfiguration, Command, ThisLaunchFileDir
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
@@ -24,8 +25,27 @@ import os
 from launch_ros.descriptions import ParameterValue
 
 def generate_launch_description():
-    
+
+    estimation_pkg_dir = get_package_share_directory('estimation_pkg')
+    print(f'estimation_pkg_dir={estimation_pkg_dir}')
+    rqt_perspective_file_path = os.path.join(estimation_pkg_dir, 'rqt_setting.perspective')
+    print(f'rqt_perspective_file_path={rqt_perspective_file_path}')
+    rqt_command = ['rqt', '-p', rqt_perspective_file_path]
+
     return LaunchDescription([
+        # ExecuteProcess(
+        #     cmd=rqt_command,
+        #     output='screen'
+        # ),
+
+        Node(
+            package='rqt_gui',
+            executable='rqt_gui',
+            name='rqt_gui',
+            arguments=['--perspective-file', rqt_perspective_file_path],
+            output='screen'
+        ),
+
         Node(
             package='estimation_pkg',
             executable='segment_angle_estimator',
@@ -33,4 +53,16 @@ def generate_launch_description():
             output='screen',
             #prefix='taskset -c 2 3'
         ),
+        Node(
+            package='estimation_pkg',
+            executable='external_force_estimator',
+            name='external_force_estimator',
+            output='screen',
+            parameters=[
+                {'model_path': 'model/lstm_model.h5'},
+                {'scaler_x_path': 'model/scaler_x.pkl'},
+                {'scaler_y_path': 'model/scaler_y.pkl'},
+            ]
+            #prefix='taskset -c 2 3'
+        )
     ])

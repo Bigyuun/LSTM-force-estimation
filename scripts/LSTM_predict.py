@@ -7,7 +7,7 @@ from glob import glob
 import datetime
 import os
 
-model_dir = os.path.join('..', 'fit', '20240923-134009')
+model_dir = os.path.join('..', 'model')
 save_dir = '../results/predicted_results_with_original_' + datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + '.csv'
 
 # 모델 불러오기

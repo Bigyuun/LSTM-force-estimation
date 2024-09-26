@@ -76,14 +76,26 @@ python LSTM_predict.py
 
 ## Run ROS2 node
 ### Segment(Joint) Angle Publisher
+**deactivate virtual_env (for build using ROS python core only)**
 ```
-# build & source
+deactivate
+```
+
+**build & source**
+```
+# If the error `no module named 'em'`, please remove dirctories named 'build', 'install' and 'log'.
 colcon build --symlink-install
 . install/setup.bash
-
+```
+```
+# activate virtual_env
+source {env_name}/bin/activate
+```
+```
 # run
 ros2 run estimation_pkg segment_angle_estimator
-
+```
+```
 # launch
 ros2 launch estimation_pkg _launch.py
 ```
