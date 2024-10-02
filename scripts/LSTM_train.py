@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 # 여러 개의 CSV와 JSON 파일 경로를 지정합니다.
 data_csv = sorted(glob('../datasets/train/data_LPF_*.csv'))
-curvefit_json = sorted(glob('../datasets/train/curve_fit_result-*.json'))
+curvefit_json = sorted(glob('../datasets/train/curve_fit_result-joint_angle_*.json'))
 
 # 모든 CSV 파일을 읽어 리스트에 저장합니다.
 csv_dataframes = [pd.read_csv(file) for file in data_csv]

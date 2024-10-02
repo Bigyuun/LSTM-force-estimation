@@ -48,6 +48,7 @@ def process(dir_path, rbsc: RBSC, do_LPF=True, do_curvefit=True):
 
     upper_dir_name = os.path.basename(dir_path)
     image_path = os.path.join(dir_path, 'images')
+    image_path = os.path.join(dir_path, 'images_ROI')
 
     # create directories for saving
     output_directory_name_body = os.path.join(dir_path, 'images_crop_body')
@@ -191,7 +192,7 @@ def process(dir_path, rbsc: RBSC, do_LPF=True, do_curvefit=True):
 
 if __name__ == '__main__':
     # define path of directory
-    base_dir = '../data/2024-08-07 experiment'
+    base_dir = '../data/2024-10-01 experiment (0.4mm) test datasets'
 
     # 이미지 프로세싱 클래스
     rbsc = RBSC()

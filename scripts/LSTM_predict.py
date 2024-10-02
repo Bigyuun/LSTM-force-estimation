@@ -14,12 +14,12 @@ save_dir = '../results/predicted_results_with_original_' + datetime.datetime.now
 model = tf.keras.models.load_model(os.path.join(model_dir, 'lstm_model.h5'))
 
 # 스케일러 불러오기
-scaler_X = joblib.load(os.path.join(model_dir, 'scaler_X.pkl'))
+scaler_x = joblib.load(os.path.join(model_dir, 'scaler_x.pkl'))
 scaler_y = joblib.load(os.path.join(model_dir, 'scaler_y.pkl'))
 
 # 여러 개의 테스트용 CSV와 JSON 파일 경로를 지정합니다.
 test_csv = sorted(glob('../datasets/test/data_*.csv'))
-test_json = sorted(glob('../datasets/test/curve_fit_result-*.json'))
+test_json = sorted(glob('../datasets/test/curve_fit_result-joint_angle_*.json'))
 # 모든 CSV 파일을 읽어 리스트에 저장합니다.
 csv_test_dataframes = [pd.read_csv(file) for file in test_csv]
 
@@ -47,7 +47,7 @@ output_columns = ['fx', 'fy']
 x_test_non_joint_angle = final_test_df[input_non_joint_angle_columns].values
 x_test_joint_angle = final_test_df[input_joint_angle_columns].values
 # 입력 데이터 스케일링
-x_test_non_joint_angle_normalized = scaler_X.transform(x_test_non_joint_angle)
+x_test_non_joint_angle_normalized = scaler_x.transform(x_test_non_joint_angle)
 
 x_test_normalized = np.concatenate([x_test_non_joint_angle_normalized, x_test_joint_angle], axis=1)
 
