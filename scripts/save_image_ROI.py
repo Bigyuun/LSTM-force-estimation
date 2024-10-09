@@ -1,17 +1,35 @@
 import os
 import cv2
 from tqdm import tqdm
+import json
+
+
+def load_config(self, config_file='config_ROI_ref.json'):
+    print(f'config.json PATH: {config_file}')
+
+    print(f'Load {config_file}')
+    print(f'===== json list ======')
+    with open(config_file, 'r') as f:
+        config = json.load(f)
+        # print
+        for key, value in config.items():
+            print(f'{key} : {value}')
+    print(f'===== json list end ===')
+
+    return config
 
 def process(dir_path):
+    config_file = 'config_ROI_ref.json'
+    config = load_config(config_file)
+
+    # set ROI
+    roi_x, roi_y, roi_w, roi_h = config.get('x'), config.get('y'), config.get('w'), config.get('h')
 
     # 이미지가 저장된 폴더 경로
     input_dir = os.path.join(dir_path, 'images')
     output_dir = os.path.join(dir_path, 'images_ROI')
 
     print(f'Processing in dir:{input_dir}')
-    # ROI 좌표 설정 (시작 x, 시작 y, 너비 w, 높이 h)
-    # 예를 들어 좌표가 (50, 50)에서 시작해서 100x100 크기의 영역을 자르려면
-    roi_x, roi_y, roi_w, roi_h = 320, 100, 600, 450
 
     # output 디렉토리가 없으면 생성
     if not os.path.exists(output_dir):
@@ -44,14 +62,14 @@ def process(dir_path):
 
 if __name__ == '__main__':
     # define path of directory
-    base_dir = '../data/2024-10-01 experiment (0.4mm) test datasets'
+    base_dir = '../data/2024-10-07 experiment (0.4 mm)'
 
     # 이미지 프로세싱 클래스
     # 최상위 폴더 내의 모든 하위 폴더를 탐색
     subfolders = [os.path.join(base_dir, name) for name in os.listdir(base_dir)
                   if os.path.isdir(os.path.join(base_dir, name))]
 
-    for dir_path in subfolders:
+    for dir_path in tqdm(subfolders):
         # 폴더 처리 및 결과 저장
         process(dir_path)
 

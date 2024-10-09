@@ -47,7 +47,7 @@ def process(dir_path, rbsc: RBSC, do_LPF=True, do_curvefit=True):
     '''
 
     upper_dir_name = os.path.basename(dir_path)
-    image_path = os.path.join(dir_path, 'images')
+    # image_path = os.path.join(dir_path, 'images')
     image_path = os.path.join(dir_path, 'images_ROI')
 
     # create directories for saving
@@ -82,7 +82,7 @@ def process(dir_path, rbsc: RBSC, do_LPF=True, do_curvefit=True):
             data_lpf_all[column] = filtered_values
 
         ###
-        # Not use in LSTM_train.py
+        # Not use in LSTM_train_legacy.py
         # Just check and debug on .csv file
         scaler = MinMaxScaler()
         columns_to_normalized = ['wire length #0', 'wire length #1', 'loadcell #0', 'loadcell #1', 'fx', 'fy', 'fz', 'tx', 'ty', 'tz']
@@ -192,7 +192,7 @@ def process(dir_path, rbsc: RBSC, do_LPF=True, do_curvefit=True):
 
 if __name__ == '__main__':
     # define path of directory
-    base_dir = '../data/2024-10-01 experiment (0.4mm) test datasets'
+    base_dir = '../data/2024-10-07 experiment (0.4 mm)'
 
     # 이미지 프로세싱 클래스
     rbsc = RBSC()
@@ -200,7 +200,7 @@ if __name__ == '__main__':
     subfolders = [os.path.join(base_dir, name) for name in os.listdir(base_dir)
                   if os.path.isdir(os.path.join(base_dir, name))]
 
-    for dir_path in subfolders:
+    for dir_path in tqdm(subfolders):
         # 폴더 처리 및 결과 저장
         df_results = process(dir_path, rbsc)
         # 결과 출력

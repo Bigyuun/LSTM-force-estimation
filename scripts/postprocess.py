@@ -518,36 +518,41 @@ class RBSC:
     def plot_save(self, save_dir, image_name):
         # results
         # rads = -np.deg2rad(self.joint_angle_degree)
-        rads = self.joint_angle + np.pi / 2
-        # print(f'rads = {rads}')
-        arrow_length = 15
-        u = np.cos(rads) * arrow_length
-        v = np.sin(rads) * arrow_length
-        v = -v
-        vector_scale = 1
-        plt.figure(figsize=(10, 5))
-        # plt.subplot(2, 3, 6)
-        plt.title('Grayscale Image')
-        plt.imshow(self.gray_image, cmap='gray')
-        pixel_yx = np.flip(self.joint_yx_pixel, axis=0)
-        plt.scatter(pixel_yx[:, 1], pixel_yx[:, 0], color='red', s=4, label='Joint Point')
-        plt.quiver(pixel_yx[:, 1], pixel_yx[:, 0],
-                   u, v,
-                   angles='xy',
-                   scale_units='xy',
-                   scale=vector_scale,
-                   width=0.005,
-                   headwidth=2,
-                   headlength=2,
-                   headaxislength=2,
-                   color='blue'
-                   )
-        plt.axis('off')
+        try:
+            rads = self.joint_angle + np.pi / 2
+            # print(f'rads = {rads}')
+            arrow_length = 15
+            u = np.cos(rads) * arrow_length
+            v = np.sin(rads) * arrow_length
+            v = -v
+            vector_scale = 1
+            plt.figure(figsize=(10, 5))
+            # plt.subplot(2, 3, 6)
+            plt.title('Grayscale Image')
+            plt.imshow(self.gray_image, cmap='gray')
+            pixel_yx = np.flip(self.joint_yx_pixel, axis=0)
+            plt.scatter(pixel_yx[:, 1], pixel_yx[:, 0], color='red', s=4, label='Joint Point')
+            plt.quiver(pixel_yx[:, 1], pixel_yx[:, 0],
+                       u, v,
+                       angles='xy',
+                       scale_units='xy',
+                       scale=vector_scale,
+                       width=0.005,
+                       headwidth=2,
+                       headlength=2,
+                       headaxislength=2,
+                       color='blue'
+                       )
+            plt.axis('off')
 
-        # 이미지를 파일로 저장
-        dir_name = save_dir
-        image_filename = image_name
-        plt.savefig(os.path.join(dir_name, image_filename), bbox_inches='tight', pad_inches=0)
+            # 이미지를 파일로 저장
+            dir_name = save_dir
+            image_filename = image_name
+            plt.savefig(os.path.join(dir_name, image_filename), bbox_inches='tight', pad_inches=0)
+        except Exception as e:
+            print(f'save_plot() error: {e}')
+            print(f'u: {u}\n pixel_yx: {pixel_yx}')
+
 
     def show(self):
         plt.figure('rgb with landmarks')
@@ -722,8 +727,8 @@ if __name__ == '__main__':
     rbsc.show()
 
     # img_dir = 'data/2024-08-08 experiment/2024-08-08-13-52-44 nopayload/images'
-    dir_path = '../data/2024-08-08 experiment/2024-08-08-13-46-11 upper_init-X'
-    img_dir = os.path.join(dir_path, 'images')
+    dir_path = '../data/2024-10-01 experiment (0.4 mm)/2024-10-01-16-32-03 Super Random'
+    img_dir = os.path.join(dir_path, 'images_ROI')
     images = [img for img in os.listdir(img_dir) if img.endswith(".png") or img.endswith(".jpg")]
     images = natsorted(images)
 
