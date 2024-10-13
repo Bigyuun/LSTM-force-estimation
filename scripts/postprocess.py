@@ -321,7 +321,7 @@ class RBSC:
         # print(f'joint_angle (rad) = {self.joint_angle}')
         # print(f'joint_angle (deg) = {self.joint_angle_degree}')
 
-    def postprocess(self, image, binary_thresh=127, filfinder_flag=False):
+    def postprocess(self, image, binary_thresh=40, filfinder_flag=False):
         try:
             # ========== post processing ==========
             # 1. read as grayscale
@@ -516,7 +516,7 @@ class RBSC:
             return
 
     def plot_save(self, save_dir, image_name):
-        # results
+        # results_0.4mm
         # rads = -np.deg2rad(self.joint_angle_degree)
         try:
             rads = self.joint_angle + np.pi / 2
@@ -608,7 +608,7 @@ class RBSC:
         plt.legend()
         plt.axis('off')
 
-        # results
+        # results_0.4mm
         # rads = -np.deg2rad(self.joint_angle_degree)
         rads = self.joint_angle + np.pi / 2
         print(f'rads = {rads}')

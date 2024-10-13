@@ -25,7 +25,7 @@ def create_directory(directory_path):
 
 ############################################################################
 
-def low_pass_filter(data, cutoff_frequency=0.2, sampling_rate=30.0, order=4):
+def low_pass_filter(data, cutoff_frequency=0.2, sampling_rate=15.0, order=4):
     nyquist = 0.5 * sampling_rate
     normal_cutoff = cutoff_frequency / nyquist
     b, a = butter(order, normal_cutoff, btype='low', analog=False)
@@ -192,7 +192,7 @@ def process(dir_path, rbsc: RBSC, do_LPF=True, do_curvefit=True):
 
 if __name__ == '__main__':
     # define path of directory
-    base_dir = '../data/2024-10-07 experiment (0.4 mm)'
+    base_dir = '../data/2024-10-10 experiment (0.35 mm) test'
 
     # 이미지 프로세싱 클래스
     rbsc = RBSC()
@@ -200,7 +200,10 @@ if __name__ == '__main__':
     subfolders = [os.path.join(base_dir, name) for name in os.listdir(base_dir)
                   if os.path.isdir(os.path.join(base_dir, name))]
 
-    for dir_path in tqdm(subfolders):
+    # dir_path = '../data/2024-10-10 experiment (0.35 mm)/2024-10-11-10-56-25 sine-dynamic'
+    # df_results = process(dir_path, rbsc)
+
+    for dir_path in subfolders:
         # 폴더 처리 및 결과 저장
         df_results = process(dir_path, rbsc)
         # 결과 출력

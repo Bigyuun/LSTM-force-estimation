@@ -20,8 +20,8 @@ scaler_x = joblib.load(os.path.join(model_dir, 'scaler_x.pkl'))
 scaler_y = joblib.load(os.path.join(model_dir, 'scaler_y.pkl'))
 
 # 여러 개의 테스트용 CSV와 JSON 파일 경로를 지정합니다.
-test_csv = sorted(glob('../datasets_0.4mm_legacy/test/data_LPF_2*.csv'))
-test_json = sorted(glob('../datasets_0.4mm_legacy/test/curve_fit_result-joint_angle_*.json'))
+test_csv = sorted(glob('../datasets/test/data_LPF_2*.csv'))
+test_json = sorted(glob('../datasets/test/curve_fit_result-joint_angle_*.json'))
 # 모든 CSV 파일을 읽어 리스트에 저장합니다.
 csv_test_dataframes = [pd.read_csv(file) for file in test_csv]
 
@@ -40,6 +40,7 @@ coefficients = np.array(test_data_expanded['Joint Angle'].tolist())
 coefficients_df = pd.DataFrame(coefficients, columns=[f'Joint Angle_{i}' for i in range(coeff_size)])
 # 기존 데이터프레임과 Joint Angle 개별 열을 합침
 final_test_df = pd.concat([test_data_expanded.reset_index(drop=True), coefficients_df], axis=1)
+final_test_df.to_csv('out.csv', index=False)
 
 # 입력 데이터 분리
 input_columns = ['wire length #0', 'wire length #1', 'loadcell #0', 'loadcell #1'] + [f'Joint Angle_{i}' for i in range(coeff_size)]
@@ -48,6 +49,7 @@ output_columns = ['fx', 'fy']
 x = final_test_df[input_columns].values
 x_normalized = scaler_x.transform(x)
 x_test = np.expand_dims(x_normalized, axis=-1)
+
 
 # 예측
 predicted_normalized = model.predict(x_test)

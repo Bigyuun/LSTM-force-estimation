@@ -514,7 +514,7 @@ class RBSC:
             return
 
     def plot_save(self, save_dir):
-        # results
+        # results_0.4mm
         # rads = -np.deg2rad(self.joint_angle_degree)
         rads = self.joint_angle + np.pi / 2
         # print(f'rads = {rads}')
@@ -597,7 +597,7 @@ class RBSC:
         plt.axis('off')
 
 
-        # results
+        # results_0.4mm
         # rads = -np.deg2rad(self.joint_angle_degree)
         rads = self.joint_angle + np.pi/2
         print(f'rads = {rads}')

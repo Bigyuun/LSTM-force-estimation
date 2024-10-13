@@ -62,14 +62,14 @@ def process(dir_path):
 
 if __name__ == '__main__':
     # define path of directory
-    base_dir = '../data/2024-10-07 experiment (0.4 mm)'
+    base_dir = '../data/2024-10-10 experiment (0.35 mm) test'
 
     # 이미지 프로세싱 클래스
     # 최상위 폴더 내의 모든 하위 폴더를 탐색
     subfolders = [os.path.join(base_dir, name) for name in os.listdir(base_dir)
                   if os.path.isdir(os.path.join(base_dir, name))]
 
-    for dir_path in tqdm(subfolders):
+    for dir_path in subfolders:
         # 폴더 처리 및 결과 저장
         process(dir_path)
 

@@ -2,12 +2,14 @@ import pandas as pd
 from glob import glob
 import numpy as np
 import matplotlib.pyplot as plt
+from tensorflow.python.layers.core import dropout
+
 # from keras.src.backend.jax.random import dropout
 
 # 여러 개의 CSV와 JSON 파일 경로를 지정합니다.
 # data_csv = sorted(glob('../datasets/train/data_LPF_*.csv'))
-data_csv = sorted(glob('../datasets_0.4mm_legacy/train/data_LPF_2*.csv'))
-curvefit_json = sorted(glob('../datasets_0.4mm_legacy/train/curve_fit_result-joint_angle_*.json'))
+data_csv = sorted(glob('../datasets/train/data_LPF_2*.csv'))
+curvefit_json = sorted(glob('../datasets/train/curve_fit_result-joint_angle_*.json'))
 
 # 모든 CSV 파일을 읽어 리스트에 저장합니다.
 csv_dataframes = [pd.read_csv(file) for file in data_csv]
@@ -59,6 +61,16 @@ output_columns = ['fx', 'fy']
 x = final_df[input_columns].values
 y = final_df[output_columns].values
 
+# 입력과 출력 데이터의 상관계수 계산 *******************************************************************************
+correlation_matrix = final_df[input_columns + output_columns].corr()
+# 출력할 최대 행과 열 수를 설정 (None으로 설정하면 제한 없이 출력)
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+# 상관계수 행렬 출력
+print(f'================= 상관계수 ====================')
+print(correlation_matrix)
+# ***********************************************************************************************************
+
 # 데이터 정규화
 scaler_x = MinMaxScaler()
 scaler_y = MinMaxScaler()
@@ -85,13 +97,16 @@ early_stopping = EarlyStopping(monitor='val_loss', patience=10, restore_best_wei
 # # LSTM 모델 구성
 model = tf.keras.Sequential([
     tf.keras.layers.Input(shape=(x_train.shape[1], 1)),
-    # tf.keras.layers.LSTM(128, return_sequences=True),
-    # tf.keras.layers.BatchNormalization(),
-    tf.keras.layers.LSTM(64, return_sequences=False, dropout=0.1),
+    tf.keras.layers.LSTM(128, return_sequences=True),
     tf.keras.layers.BatchNormalization(),
-    tf.keras.layers.Dense(32, activation='relu'),
+    tf.keras.layers.LSTM(64, return_sequences=False),
+    tf.keras.layers.BatchNormalization(),
+    tf.keras.layers.Dense(32, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)),  # 정규화 추가
     tf.keras.layers.Dropout(0.1),
-    tf.keras.layers.Dense(16, activation='relu'),
+    tf.keras.layers.Dense(16, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)),
+    tf.keras.layers.Dropout(0.1),
+    # tf.keras.layers.Dense(16, activation='relu'),
+    # tf.keras.layers.Dropout(0.1),
     tf.keras.layers.Dense(2)
 ])
 
@@ -123,13 +138,13 @@ print("실제값:", y_val_original)
 
 ###################################################################################
 # 저장된 모델 로드 예제
-loaded_model = tf.keras.models.load_model(os.path.join(save_dir, 'lstm_model.h5'))
+# loaded_model = tf.keras.models.load_model(os.path.join(save_dir, 'lstm_model.h5'))
 # loaded_model = tf.keras.models.load_model('../fit/20240919-144705/lstm_model.h5')
 
 # 로드된 모델로 예측
-loaded_predicted = loaded_model.predict(x_valid)
-loaded_predicted_original = scaler_y.inverse_transform(loaded_predicted)
-print("로드된 모델의 예측값:", loaded_predicted_original)
+# loaded_predicted = loaded_model.predict(x_valid)
+# loaded_predicted_original = scaler_y.inverse_transform(loaded_predicted)
+# print("로드된 모델의 예측값:", loaded_predicted_original)
 
 ###################################################################################
 import subprocess

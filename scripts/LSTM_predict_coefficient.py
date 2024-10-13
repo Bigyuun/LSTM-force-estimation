@@ -8,7 +8,7 @@ import datetime
 import os
 
 model_dir = os.path.join('..', 'model')
-save_dir = '../results/predicted_results_with_original_' + datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + '.csv'
+save_dir = '../results_0.4mm/predicted_results_with_original_' + datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + '.csv'
 
 # 모델 불러오기
 model = tf.keras.models.load_model(os.path.join(model_dir, 'lstm_model.h5'))

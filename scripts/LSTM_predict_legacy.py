@@ -8,7 +8,7 @@ import datetime
 import os
 
 model_dir = os.path.join('..', 'model')
-save_dir = '../results'
+save_dir = '../results_0.4mm'
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
 
@@ -73,7 +73,7 @@ results_df = final_test_df[output_columns].copy()
 results_df[['pred_fx', 'pred_fy']] = predicted_original
 
 # 결과를 CSV 파일로 저장
-save_dir = '../results/predicted_results_with_original_' + datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + '.csv'
+save_dir = '../results_0.4mm/predicted_results_with_original_' + datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + '.csv'
 results_df.to_csv(save_dir, index=False)
 
 print(f"예측값이 {save_dir} 파일에 저장되었습니다.")
