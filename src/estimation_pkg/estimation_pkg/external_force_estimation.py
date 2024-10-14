@@ -19,6 +19,7 @@ from custom_interfaces.msg import LoadcellState
 from custom_interfaces.msg import DataFilterSetting
 
 from rclpy.executors import MultiThreadedExecutor
+from ament_index_python.packages import get_package_share_directory
 
 import numpy as np
 import tensorflow as tf
@@ -41,12 +42,36 @@ class ExternalForceEstimationNode(Node):
     print(os.path.abspath(__file__))
     print("============================")
     
-    self.declare_parameter('model_path', 'model/lstm_model.h5')
+    package_share_directory = get_package_share_directory('estimation_pkg')
+
+    model_path = os.path.join(package_share_directory, 'lstm_model.h5')
+    self.declare_parameter('model_path', model_path)
     self.model_path = self.get_parameter('model_path').get_parameter_value().string_value
-    self.declare_parameter('scaler_x_path', 'model/scaler_x.pkl')
+
+    scaler_x_path = os.path.join(package_share_directory, 'scaler_x.pkl')
+    self.declare_parameter('scaler_x_path', scaler_x_path)
     self.scaler_x_path = self.get_parameter('scaler_x_path').get_parameter_value().string_value
-    self.declare_parameter('scaler_y_path', 'model/scaler_y.pkl')
+    
+    scaler_y_path = os.path.join(package_share_directory, 'scaler_y.pkl')
+    self.declare_parameter('scaler_y_path', scaler_y_path)
     self.scaler_y_path = self.get_parameter('scaler_y_path').get_parameter_value().string_value
+
+    package_share_directory = get_package_share_directory('estimation_pkg')
+
+    # If use _launch.py, do these lines
+    self.model_path = self.get_parameter('model_path').get_parameter_value().string_value
+    self.scaler_x_path = self.get_parameter('scaler_x_path').get_parameter_value().string_value
+    self.scaler_y_path = self.get_parameter('scaler_y_path').get_parameter_value().string_value
+
+
+
+    print(f'[external_force_estimation.py] lstm_model.h5 PATH: {model_path}')
+    print(f'[external_force_estimation.py] scaler_x.pkl PATH: {scaler_x_path}')
+    print(f'[external_force_estimation.py] scaler_y.pkl PATH: {scaler_y_path}')
+    print(f'[external_force_estimation.py] lstm_model.h5 PATH: {self.model_path}')
+    print(f'[external_force_estimation.py] scaler_x.pkl PATH: {self.scaler_x_path}')
+    print(f'[external_force_estimation.py] scaler_y.pkl PATH: {self.scaler_y_path}')
+
     
     self.model = tf.keras.models.load_model(self.model_path)
     # self.model = tf.keras.models.load_model('model/lstm_model.h5')

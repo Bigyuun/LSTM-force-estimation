@@ -30,9 +30,14 @@ def generate_launch_description():
 
     estimation_pkg_dir = get_package_share_directory('estimation_pkg')
     print(f'estimation_pkg_dir={estimation_pkg_dir}')
+
     rqt_perspective_file_path = os.path.join(estimation_pkg_dir, 'rqt_setting.perspective')
     print(f'rqt_perspective_file_path={rqt_perspective_file_path}')
     rqt_command = ['rqt', '-p', rqt_perspective_file_path]
+
+    lstm_model_path = os.path.join(estimation_pkg_dir, 'lstm_model.h5')
+    scaler_x_path = os.path.join(estimation_pkg_dir, 'scaler_x.pkl')
+    sclaer_y_path = os.path.join(estimation_pkg_dir, 'scaler_y.pkl')
 
     return LaunchDescription([
         # ExecuteProcess(
@@ -72,9 +77,9 @@ def generate_launch_description():
             name='external_force_estimator',
             output='screen',
             parameters=[
-                {'model_path': 'model/lstm_model.h5'},
-                {'scaler_x_path': 'model/scaler_x.pkl'},
-                {'scaler_y_path': 'model/scaler_y.pkl'},
+                {'model_path': lstm_model_path},
+                {'scaler_x_path': scaler_x_path},
+                {'scaler_y_path': sclaer_y_path},
             ]
             #prefix='taskset -c 2 3'
         )

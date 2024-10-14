@@ -63,7 +63,7 @@ class RBSC:
 
         package_share_directory = get_package_share_directory('estimation_pkg')
         config_path = os.path.join(package_share_directory, config_file)
-        print(f'config.json PATH: {config_path}')
+        print(f'[postprocess.py] config.json PATH: {config_path}')
         
         print(f'Load {config_file}')
         print(f'===== json list ======')
