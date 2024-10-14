@@ -23,6 +23,8 @@ from ament_index_python.packages import get_package_share_directory
 from launch_ros.substitutions import FindPackageShare
 import os
 from launch_ros.descriptions import ParameterValue
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 def generate_launch_description():
 
@@ -37,6 +39,17 @@ def generate_launch_description():
         #     cmd=rqt_command,
         #     output='screen'
         # ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                [get_package_share_directory('realsense2_camera'), '/launch/rs_launch.py']),
+                launch_arguments={
+                'rgb_camera.color_profile': '1280,720,30',
+                'depth_module.depth_profile': '1280,720,30',
+                'rgb_camera.enable_auto_exposure': 'true',
+                # 'rgb_camera.profile': '640,480,30',
+                # 'depth_module.profile': '640,480,30',
+                }.items()
+        ),
 
         Node(
             package='rqt_gui',

@@ -164,7 +164,7 @@ class ExternalForceEstimationNode(Node):
         lc = self.loadcell_data.stress
         segment_angle = self.segment_angle.data
 
-        self.get_logger().info(f'wl:{wl}\n lc:{lc} \n segment_angle:{segment_angle}')
+        # self.get_logger().info(f'wl:{wl}\n lc:{lc} \n segment_angle:{segment_angle}')
 
         # input = np.array([ wl + lc + segment_angle])
         input = np.concatenate((wl, lc, segment_angle))
@@ -179,8 +179,8 @@ class ExternalForceEstimationNode(Node):
         self.external_force_publisher.publish(self.external_force)
 
       except Exception as e:
-         self.get_logger().info(f'Exception: {e}')
-         traceback.print_exc()
+        #  self.get_logger().info(f'Exception: {e}')
+        #  traceback.print_exc()
          pass
       finally:
          pass

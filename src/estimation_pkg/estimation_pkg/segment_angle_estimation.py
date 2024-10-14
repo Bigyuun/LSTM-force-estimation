@@ -11,6 +11,7 @@ from std_msgs.msg import Float32MultiArray
 from rclpy.executors import MultiThreadedExecutor
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
+from ament_index_python.packages import get_package_share_directory
 
 from estimation_pkg.postprocess import RBSC
 # from postprocess import RBSC
@@ -20,12 +21,19 @@ import os
 import numpy as np
 import cv2
 import traceback
+import json
 
 print(f"[segment] Current Working Directory : {os.getcwd()}")
 
 class SegmentEstimationNode(Node):
-  def __init__(self):
+  def __init__(self, roi_config_file='config_ROI_ref.json'):
+    self.roi_config = self.load_config(roi_config_file)
+    self.roi_x = self.roi_config['x']
+    self.roi_y = self.roi_config['y']
+    self.roi_w = self.roi_config['w']
+    self.roi_h = self.roi_config['h']
     self.current_frame = None
+    self.current_frame_ROI = None
     self.rbsc = RBSC()
     self.segment_angle = None
     # self.joint_angle = np.array(0)
@@ -86,15 +94,35 @@ class SegmentEstimationNode(Node):
     self.segment_estimation_thread.start()
     self.realtime_show_thread.start()
 
+  def load_config(self, config_file):
+
+        package_share_directory = get_package_share_directory('estimation_pkg')
+        config_path = os.path.join(package_share_directory, config_file)
+        print(f'config.json PATH: {config_path}')
+        
+        print(f'Load {config_file}')
+        print(f'===== json list ======')
+        with open(config_path, 'r') as f:
+            config = json.load(f)
+            # print
+            for key, value in config.items():
+                print(f'{key} : {value}')
+        print(f'===== json list end ===')
+
+        return config
+  
   def color_image_rect_raw_callback(self, data):
     self.current_frame_flag = True
     self.capture_time = data.header.stamp
     self.current_frame = self.br_rgb.imgmsg_to_cv2(data, 'bgr8')
+    self.current_frame_ROI = self.current_frame[self.roi_y:self.roi_y + self.roi_h, self.roi_x:self.roi_x + self.roi_w]
+
 
   def process(self):
     while rclpy.ok():
       if self.current_frame_flag:
-        suc = self.rbsc.postprocess(self.current_frame)
+        # suc = self.rbsc.postprocess(self.current_frame)
+        suc = self.rbsc.postprocess(self.current_frame_ROI)
         if suc == None:
           continue
         self.joint_angle = self.rbsc.joint_angle  # radian
@@ -118,7 +146,7 @@ class SegmentEstimationNode(Node):
           # if fitting prcoess is faster than image fps, use this.
           # cv2.imshow('Real-time Image with Joint Points and Arrows', self.rbsc.image_rgb_with_landmarks)
           # if fitting process is slower than image fps, use this.
-          landmark_image = self.rbsc.draw_arrows(self.current_frame)
+          landmark_image = self.rbsc.draw_arrows(self.current_frame_ROI)
           landmark_image_msg = self.br_rgb.cv2_to_imgmsg(landmark_image, 'bgr8')
           self.segment_angle_image_publisher.publish(landmark_image_msg)
           # cv2.imshow('Real-time Image with Joint Points and Arrows', landmark_image)
